@@ -11,7 +11,7 @@ namespace OOP_Project
     {
         public string Name { get; set; }
         public PictureBox ItemBox { get; private set; }
-        public bool IsPickedUp { get;  private set; }
+        public bool IsPickedUp { get; private set; }
 
         public Item(string name, PictureBox box)
         {

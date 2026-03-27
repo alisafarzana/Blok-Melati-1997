@@ -38,15 +38,15 @@
             this.lblInventory = new System.Windows.Forms.Label();
             this.lblPickup = new System.Windows.Forms.Label();
             this.gamePanel = new System.Windows.Forms.Panel();
+            this.shirt2Box = new System.Windows.Forms.PictureBox();
+            this.towelBox = new System.Windows.Forms.PictureBox();
+            this.sockBox = new System.Windows.Forms.PictureBox();
+            this.bucketBox = new System.Windows.Forms.PictureBox();
             this.heart2 = new System.Windows.Forms.PictureBox();
             this.heart1 = new System.Windows.Forms.PictureBox();
             this.heart3 = new System.Windows.Forms.PictureBox();
             this.ghostPic = new System.Windows.Forms.PictureBox();
-            this.basebox = new System.Windows.Forms.PictureBox();
-            this.bucketBox = new System.Windows.Forms.PictureBox();
-            this.sockBox = new System.Windows.Forms.PictureBox();
-            this.towelBox = new System.Windows.Forms.PictureBox();
-            this.shirt2Box = new System.Windows.Forms.PictureBox();
+            this.sock2Box = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.characterBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightToiletBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.washBox)).BeginInit();
@@ -54,22 +54,22 @@
             ((System.ComponentModel.ISupportInitialize)(this.sinkBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shirtBox)).BeginInit();
             this.gamePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.shirt2Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.towelBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sockBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bucketBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostPic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.basebox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bucketBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sockBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.towelBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.shirt2Box)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sock2Box)).BeginInit();
             this.SuspendLayout();
             // 
             // characterBox
             // 
             this.characterBox.BackColor = System.Drawing.Color.Transparent;
             this.characterBox.Image = ((System.Drawing.Image)(resources.GetObject("characterBox.Image")));
-            this.characterBox.Location = new System.Drawing.Point(79, 382);
+            this.characterBox.Location = new System.Drawing.Point(134, 317);
             this.characterBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.characterBox.Name = "characterBox";
             this.characterBox.Size = new System.Drawing.Size(84, 80);
@@ -82,7 +82,7 @@
             this.rightToiletBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rightToiletBox.BackColor = System.Drawing.Color.Transparent;
             this.rightToiletBox.Image = ((System.Drawing.Image)(resources.GetObject("rightToiletBox.Image")));
-            this.rightToiletBox.Location = new System.Drawing.Point(1116, 1);
+            this.rightToiletBox.Location = new System.Drawing.Point(1119, 0);
             this.rightToiletBox.Margin = new System.Windows.Forms.Padding(4);
             this.rightToiletBox.Name = "rightToiletBox";
             this.rightToiletBox.Size = new System.Drawing.Size(229, 182);
@@ -107,7 +107,7 @@
             // 
             this.leftToiletBox.BackColor = System.Drawing.Color.Transparent;
             this.leftToiletBox.Image = ((System.Drawing.Image)(resources.GetObject("leftToiletBox.Image")));
-            this.leftToiletBox.Location = new System.Drawing.Point(-3, 1);
+            this.leftToiletBox.Location = new System.Drawing.Point(-10, 0);
             this.leftToiletBox.Margin = new System.Windows.Forms.Padding(4);
             this.leftToiletBox.Name = "leftToiletBox";
             this.leftToiletBox.Size = new System.Drawing.Size(457, 177);
@@ -120,7 +120,7 @@
             this.sinkBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.sinkBox.BackColor = System.Drawing.Color.Transparent;
             this.sinkBox.Image = ((System.Drawing.Image)(resources.GetObject("sinkBox.Image")));
-            this.sinkBox.Location = new System.Drawing.Point(585, 15);
+            this.sinkBox.Location = new System.Drawing.Point(570, 12);
             this.sinkBox.Margin = new System.Windows.Forms.Padding(4);
             this.sinkBox.Name = "sinkBox";
             this.sinkBox.Size = new System.Drawing.Size(385, 97);
@@ -167,101 +167,27 @@
             // 
             // gamePanel
             // 
+            this.gamePanel.BackColor = System.Drawing.SystemColors.Control;
+            this.gamePanel.BackgroundImage = global::OOP_Project.Properties.Resources._base;
+            this.gamePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.gamePanel.Controls.Add(this.rightToiletBox);
+            this.gamePanel.Controls.Add(this.sock2Box);
             this.gamePanel.Controls.Add(this.shirt2Box);
             this.gamePanel.Controls.Add(this.towelBox);
+            this.gamePanel.Controls.Add(this.sinkBox);
+            this.gamePanel.Controls.Add(this.characterBox);
             this.gamePanel.Controls.Add(this.sockBox);
+            this.gamePanel.Controls.Add(this.leftToiletBox);
             this.gamePanel.Controls.Add(this.bucketBox);
             this.gamePanel.Controls.Add(this.heart2);
             this.gamePanel.Controls.Add(this.heart1);
             this.gamePanel.Controls.Add(this.shirtBox);
             this.gamePanel.Controls.Add(this.heart3);
             this.gamePanel.Controls.Add(this.ghostPic);
-            this.gamePanel.Controls.Add(this.basebox);
             this.gamePanel.Location = new System.Drawing.Point(-3, 1);
             this.gamePanel.Name = "gamePanel";
             this.gamePanel.Size = new System.Drawing.Size(1348, 665);
             this.gamePanel.TabIndex = 9;
-            // 
-            // heart2
-            // 
-            this.heart2.Image = global::OOP_Project.Properties.Resources.heart;
-            this.heart2.Location = new System.Drawing.Point(64, 512);
-            this.heart2.Name = "heart2";
-            this.heart2.Size = new System.Drawing.Size(54, 50);
-            this.heart2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.heart2.TabIndex = 11;
-            this.heart2.TabStop = false;
-            // 
-            // heart1
-            // 
-            this.heart1.Image = global::OOP_Project.Properties.Resources.heart;
-            this.heart1.Location = new System.Drawing.Point(124, 512);
-            this.heart1.Name = "heart1";
-            this.heart1.Size = new System.Drawing.Size(54, 50);
-            this.heart1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.heart1.TabIndex = 10;
-            this.heart1.TabStop = false;
-            // 
-            // heart3
-            // 
-            this.heart3.Image = global::OOP_Project.Properties.Resources.heart;
-            this.heart3.Location = new System.Drawing.Point(4, 512);
-            this.heart3.Name = "heart3";
-            this.heart3.Size = new System.Drawing.Size(54, 50);
-            this.heart3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.heart3.TabIndex = 9;
-            this.heart3.TabStop = false;
-            // 
-            // ghostPic
-            // 
-            this.ghostPic.Image = global::OOP_Project.Properties.Resources.ghostRight;
-            this.ghostPic.Location = new System.Drawing.Point(601, 213);
-            this.ghostPic.Name = "ghostPic";
-            this.ghostPic.Size = new System.Drawing.Size(84, 80);
-            this.ghostPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ghostPic.TabIndex = 0;
-            this.ghostPic.TabStop = false;
-            // 
-            // basebox
-            // 
-            this.basebox.Image = ((System.Drawing.Image)(resources.GetObject("basebox.Image")));
-            this.basebox.Location = new System.Drawing.Point(4, 0);
-            this.basebox.Margin = new System.Windows.Forms.Padding(4);
-            this.basebox.Name = "basebox";
-            this.basebox.Size = new System.Drawing.Size(1348, 665);
-            this.basebox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.basebox.TabIndex = 8;
-            this.basebox.TabStop = false;
-            // 
-            // bucketBox
-            // 
-            this.bucketBox.Image = global::OOP_Project.Properties.Resources.bucket;
-            this.bucketBox.Location = new System.Drawing.Point(1218, 480);
-            this.bucketBox.Name = "bucketBox";
-            this.bucketBox.Size = new System.Drawing.Size(60, 60);
-            this.bucketBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.bucketBox.TabIndex = 12;
-            this.bucketBox.TabStop = false;
-            // 
-            // sockBox
-            // 
-            this.sockBox.Image = global::OOP_Project.Properties.Resources.sock;
-            this.sockBox.Location = new System.Drawing.Point(307, 233);
-            this.sockBox.Name = "sockBox";
-            this.sockBox.Size = new System.Drawing.Size(60, 60);
-            this.sockBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.sockBox.TabIndex = 13;
-            this.sockBox.TabStop = false;
-            // 
-            // towelBox
-            // 
-            this.towelBox.Image = global::OOP_Project.Properties.Resources.towel;
-            this.towelBox.Location = new System.Drawing.Point(1110, 250);
-            this.towelBox.Name = "towelBox";
-            this.towelBox.Size = new System.Drawing.Size(60, 60);
-            this.towelBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.towelBox.TabIndex = 14;
-            this.towelBox.TabStop = false;
             // 
             // shirt2Box
             // 
@@ -275,21 +201,105 @@
             this.shirt2Box.TabIndex = 15;
             this.shirt2Box.TabStop = false;
             // 
+            // towelBox
+            // 
+            this.towelBox.BackColor = System.Drawing.Color.Transparent;
+            this.towelBox.Image = global::OOP_Project.Properties.Resources.towel;
+            this.towelBox.Location = new System.Drawing.Point(1110, 250);
+            this.towelBox.Name = "towelBox";
+            this.towelBox.Size = new System.Drawing.Size(60, 60);
+            this.towelBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.towelBox.TabIndex = 14;
+            this.towelBox.TabStop = false;
+            // 
+            // sockBox
+            // 
+            this.sockBox.BackColor = System.Drawing.Color.Transparent;
+            this.sockBox.Image = global::OOP_Project.Properties.Resources.sock;
+            this.sockBox.Location = new System.Drawing.Point(307, 233);
+            this.sockBox.Name = "sockBox";
+            this.sockBox.Size = new System.Drawing.Size(60, 60);
+            this.sockBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.sockBox.TabIndex = 13;
+            this.sockBox.TabStop = false;
+            // 
+            // bucketBox
+            // 
+            this.bucketBox.BackColor = System.Drawing.Color.Transparent;
+            this.bucketBox.Image = global::OOP_Project.Properties.Resources.bucket;
+            this.bucketBox.Location = new System.Drawing.Point(1218, 480);
+            this.bucketBox.Name = "bucketBox";
+            this.bucketBox.Size = new System.Drawing.Size(60, 60);
+            this.bucketBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.bucketBox.TabIndex = 12;
+            this.bucketBox.TabStop = false;
+            // 
+            // heart2
+            // 
+            this.heart2.BackColor = System.Drawing.Color.Transparent;
+            this.heart2.Image = global::OOP_Project.Properties.Resources.heart;
+            this.heart2.Location = new System.Drawing.Point(64, 512);
+            this.heart2.Name = "heart2";
+            this.heart2.Size = new System.Drawing.Size(54, 50);
+            this.heart2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.heart2.TabIndex = 11;
+            this.heart2.TabStop = false;
+            // 
+            // heart1
+            // 
+            this.heart1.BackColor = System.Drawing.Color.Transparent;
+            this.heart1.Image = global::OOP_Project.Properties.Resources.heart;
+            this.heart1.Location = new System.Drawing.Point(124, 512);
+            this.heart1.Name = "heart1";
+            this.heart1.Size = new System.Drawing.Size(54, 50);
+            this.heart1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.heart1.TabIndex = 10;
+            this.heart1.TabStop = false;
+            // 
+            // heart3
+            // 
+            this.heart3.BackColor = System.Drawing.Color.Transparent;
+            this.heart3.Image = global::OOP_Project.Properties.Resources.heart;
+            this.heart3.Location = new System.Drawing.Point(4, 512);
+            this.heart3.Name = "heart3";
+            this.heart3.Size = new System.Drawing.Size(54, 50);
+            this.heart3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.heart3.TabIndex = 9;
+            this.heart3.TabStop = false;
+            // 
+            // ghostPic
+            // 
+            this.ghostPic.BackColor = System.Drawing.Color.Transparent;
+            this.ghostPic.Image = global::OOP_Project.Properties.Resources.ghostRight;
+            this.ghostPic.Location = new System.Drawing.Point(594, 157);
+            this.ghostPic.Name = "ghostPic";
+            this.ghostPic.Size = new System.Drawing.Size(84, 80);
+            this.ghostPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.ghostPic.TabIndex = 0;
+            this.ghostPic.TabStop = false;
+            // 
+            // sock2Box
+            // 
+            this.sock2Box.BackColor = System.Drawing.Color.Transparent;
+            this.sock2Box.Image = global::OOP_Project.Properties.Resources.sock;
+            this.sock2Box.Location = new System.Drawing.Point(494, 480);
+            this.sock2Box.Name = "sock2Box";
+            this.sock2Box.Size = new System.Drawing.Size(60, 60);
+            this.sock2Box.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.sock2Box.TabIndex = 16;
+            this.sock2Box.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.BackgroundImage = global::OOP_Project.Properties.Resources._base;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1345, 662);
             this.Controls.Add(this.lblPickup);
             this.Controls.Add(this.lblInventory);
-            this.Controls.Add(this.sinkBox);
-            this.Controls.Add(this.leftToiletBox);
             this.Controls.Add(this.washBox);
-            this.Controls.Add(this.rightToiletBox);
-            this.Controls.Add(this.characterBox);
             this.Controls.Add(this.gamePanel);
             this.DoubleBuffered = true;
             this.KeyPreview = true;
@@ -306,15 +316,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.sinkBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shirtBox)).EndInit();
             this.gamePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.shirt2Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.towelBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sockBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bucketBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostPic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.basebox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bucketBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sockBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.towelBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.shirt2Box)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sock2Box)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -330,7 +340,6 @@
         private System.Windows.Forms.Label lblInventory;
         private System.Windows.Forms.Label lblPickup;
         private System.Windows.Forms.Panel gamePanel;
-        private System.Windows.Forms.PictureBox basebox;
         private System.Windows.Forms.PictureBox ghostPic;
         private System.Windows.Forms.PictureBox heart3;
         private System.Windows.Forms.PictureBox heart2;
@@ -339,6 +348,7 @@
         private System.Windows.Forms.PictureBox sockBox;
         private System.Windows.Forms.PictureBox bucketBox;
         private System.Windows.Forms.PictureBox shirt2Box;
+        private System.Windows.Forms.PictureBox sock2Box;
     }
 }
 

@@ -10,9 +10,9 @@ namespace OOP_Project
 {
     public class Player : Character
     {
-    
 
- 
+
+
 
         public Player(PictureBox box, int speed) : base(box, speed)
         {
@@ -56,7 +56,7 @@ namespace OOP_Project
 
         /// Call after every move. Returns item name if picked up, else null.
 
-    
+
         public Rectangle Bounds => CharacterBox.Bounds;
         public void SetVisible(bool visible)
         {
@@ -74,3 +74,4 @@ namespace OOP_Project
         }
     }
 }
+

@@ -68,7 +68,7 @@ namespace OOP_Project
                 Control ctrl = kvp.Key;
                 Rectangle original = kvp.Value;
 
-             
+
 
                 ctrl.Bounds = new Rectangle(
                     (int)(original.X * xRatio),
@@ -105,7 +105,7 @@ namespace OOP_Project
             );
         }
 
-      
+
     }
     }
 

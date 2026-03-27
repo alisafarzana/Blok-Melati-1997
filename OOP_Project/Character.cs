@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,7 +11,7 @@ using System.Windows.Forms;
 
 namespace OOP_Project
 {
-    public class Character
+    public abstract class Character
     {
         public PictureBox CharacterBox;
         protected int speed;
@@ -25,7 +28,7 @@ namespace OOP_Project
         {
             this.CharacterBox = box;
             this.speed = speed;
-            
+
         }
 
         public virtual void Move(string dir, List<PictureBox> obstacles, Size boundary)
@@ -94,19 +97,22 @@ namespace OOP_Project
             Animate();
         }
 
-        protected void Animate()
+        protected void Animate(string dir = null)
         {
+            if (dir != null) direction = dir; // override direction if given
             animationCounter++;
-            if ( animationCounter >= speed)
+            if (animationCounter >= speed)
             {
                 animationCounter = 0;
                 frameIndex++;
-                if (frameIndex >= animations[direction].Count) frameIndex = 0;  //make sure frame index not more than 2 (0,1,2)
-                CharacterBox.Image = animations[direction][frameIndex]; //change picture in picture box
+                if (animations.ContainsKey(direction) && animations[direction].Count > 0)
+                {
+                    if (frameIndex >= animations[direction].Count) frameIndex = 0;
+                    CharacterBox.Image = animations[direction][frameIndex];
+                }
             }
-           
         }
-}
 
-    
+
+    }
 }

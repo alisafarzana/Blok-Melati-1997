@@ -10,28 +10,22 @@ namespace OOP_Project
 {
     public class GameManager
     {
-        private List<PictureBox> obstacles = new List<PictureBox>();
+        private List<PictureBox> obstacles;
         private List<Item> worldItems = new List<Item>();
-        private PictureBox leftToiletBox;
-        private PictureBox rightToiletBox;
-        private PictureBox sinkBox;
-        private PictureBox washBox;
+        private PictureBox leftToiletBox, rightToiletBox,sinkBox,washBox, bush1, bush2, bush3;
 
-    
+        public PictureBox SinkBox => sinkBox;
+        public PictureBox WashBox => washBox;
 
-        public GameManager(PictureBox leftToilet, PictureBox rightToilet, PictureBox sink, PictureBox wash)
+        public GameManager(List<PictureBox> obstacle)
         {
-            leftToiletBox = leftToilet;
-            rightToiletBox = rightToilet;
-            sinkBox = sink;
-            washBox = wash;
-            worldItems = new List<Item>();
+            obstacles = obstacle;
+            leftToiletBox = obstacle[0];
+            rightToiletBox = obstacle[1];
+            sinkBox = obstacle[2];
+            washBox = obstacle[3];
 
-            //Toilet and sink collision
-            obstacles.Add(leftToiletBox);
-            obstacles.Add(rightToiletBox);
-            obstacles.Add(sinkBox);
-            obstacles.Add(washBox);
+
 
         }
 
@@ -54,27 +48,42 @@ namespace OOP_Project
                 if (player.Bounds.IntersectsWith(item.ItemBox.Bounds))
                 {
                     item.PickUp();
-                    player.inventory.AddItem(item.Name);
+                    player.inventory.AddItem(item);
                     return item.Name;
                 }
             }
             return null;
         }
 
-        public bool NearToilet (Player player)
+        public bool NearHide(Player player, List<PictureBox> Hide)
         {
             Rectangle playerBounds = player.Bounds;
             playerBounds.Inflate(5, 5);
 
-            if (playerBounds.IntersectsWith(leftToiletBox.Bounds))
-                return true;
-
-            if (playerBounds.IntersectsWith(rightToiletBox.Bounds))
-                return true;
-
+            foreach (PictureBox hide in Hide)
+            {
+                if (playerBounds.IntersectsWith(hide.Bounds))
+                    return true;
+            }
+          
             return false;
         }
 
+        public Rectangle GetNearestToilet(Player player)
+        {
+            // Compare distance to left and right toilet
+            int distLeft = Math.Abs(player.CharacterBox.Left - leftToiletBox.Left);
+            int distRight = Math.Abs(player.CharacterBox.Left - rightToiletBox.Left);
 
+            return distLeft < distRight ? leftToiletBox.Bounds : rightToiletBox.Bounds;
+        }
+
+        public bool AllItemsPicked()
+        {
+            return worldItems.All(item => item.IsPickedUp);
+        }
+
+        
     }
 }
+
