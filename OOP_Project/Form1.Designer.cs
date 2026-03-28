@@ -38,15 +38,17 @@
             this.lblInventory = new System.Windows.Forms.Label();
             this.lblPickup = new System.Windows.Forms.Label();
             this.gamePanel = new System.Windows.Forms.Panel();
+            this.heart3 = new System.Windows.Forms.PictureBox();
+            this.sock2Box = new System.Windows.Forms.PictureBox();
             this.shirt2Box = new System.Windows.Forms.PictureBox();
             this.towelBox = new System.Windows.Forms.PictureBox();
             this.sockBox = new System.Windows.Forms.PictureBox();
             this.bucketBox = new System.Windows.Forms.PictureBox();
             this.heart2 = new System.Windows.Forms.PictureBox();
             this.heart1 = new System.Windows.Forms.PictureBox();
-            this.heart3 = new System.Windows.Forms.PictureBox();
             this.ghostPic = new System.Windows.Forms.PictureBox();
-            this.sock2Box = new System.Windows.Forms.PictureBox();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnHome = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.characterBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightToiletBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.washBox)).BeginInit();
@@ -54,15 +56,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.sinkBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shirtBox)).BeginInit();
             this.gamePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.heart3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sock2Box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shirt2Box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.towelBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sockBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bucketBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.heart3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostPic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sock2Box)).BeginInit();
             this.SuspendLayout();
             // 
             // characterBox
@@ -95,7 +97,7 @@
             this.washBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.washBox.BackColor = System.Drawing.Color.Transparent;
             this.washBox.Image = ((System.Drawing.Image)(resources.GetObject("washBox.Image")));
-            this.washBox.Location = new System.Drawing.Point(880, 564);
+            this.washBox.Location = new System.Drawing.Point(844, 559);
             this.washBox.Margin = new System.Windows.Forms.Padding(4);
             this.washBox.Name = "washBox";
             this.washBox.Size = new System.Drawing.Size(465, 102);
@@ -145,23 +147,23 @@
             this.lblInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblInventory.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInventory.ForeColor = System.Drawing.Color.White;
-            this.lblInventory.Location = new System.Drawing.Point(1, 566);
+            this.lblInventory.Location = new System.Drawing.Point(4, 595);
             this.lblInventory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInventory.Name = "lblInventory";
-            this.lblInventory.Size = new System.Drawing.Size(533, 36);
+            this.lblInventory.Size = new System.Drawing.Size(533, 35);
             this.lblInventory.TabIndex = 6;
             this.lblInventory.Text = "Inventory :";
-            this.lblInventory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblPickup
             // 
+            this.lblPickup.AutoSize = true;
             this.lblPickup.BackColor = System.Drawing.Color.Transparent;
             this.lblPickup.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPickup.ForeColor = System.Drawing.Color.LightGreen;
-            this.lblPickup.Location = new System.Drawing.Point(1, 602);
+            this.lblPickup.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lblPickup.Location = new System.Drawing.Point(4, 559);
             this.lblPickup.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPickup.Name = "lblPickup";
-            this.lblPickup.Size = new System.Drawing.Size(533, 36);
+            this.lblPickup.Size = new System.Drawing.Size(0, 20);
             this.lblPickup.TabIndex = 7;
             this.lblPickup.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -170,6 +172,12 @@
             this.gamePanel.BackColor = System.Drawing.SystemColors.Control;
             this.gamePanel.BackgroundImage = global::OOP_Project.Properties.Resources._base;
             this.gamePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.gamePanel.Controls.Add(this.btnHome);
+            this.gamePanel.Controls.Add(this.btnNext);
+            this.gamePanel.Controls.Add(this.washBox);
+            this.gamePanel.Controls.Add(this.lblInventory);
+            this.gamePanel.Controls.Add(this.heart3);
+            this.gamePanel.Controls.Add(this.lblPickup);
             this.gamePanel.Controls.Add(this.rightToiletBox);
             this.gamePanel.Controls.Add(this.sock2Box);
             this.gamePanel.Controls.Add(this.shirt2Box);
@@ -182,12 +190,34 @@
             this.gamePanel.Controls.Add(this.heart2);
             this.gamePanel.Controls.Add(this.heart1);
             this.gamePanel.Controls.Add(this.shirtBox);
-            this.gamePanel.Controls.Add(this.heart3);
             this.gamePanel.Controls.Add(this.ghostPic);
             this.gamePanel.Location = new System.Drawing.Point(-3, 1);
             this.gamePanel.Name = "gamePanel";
             this.gamePanel.Size = new System.Drawing.Size(1348, 665);
             this.gamePanel.TabIndex = 9;
+            this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gamePanel_Paint);
+            // 
+            // heart3
+            // 
+            this.heart3.BackColor = System.Drawing.Color.Transparent;
+            this.heart3.Image = global::OOP_Project.Properties.Resources.heart;
+            this.heart3.Location = new System.Drawing.Point(4, 480);
+            this.heart3.Name = "heart3";
+            this.heart3.Size = new System.Drawing.Size(54, 50);
+            this.heart3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.heart3.TabIndex = 9;
+            this.heart3.TabStop = false;
+            // 
+            // sock2Box
+            // 
+            this.sock2Box.BackColor = System.Drawing.Color.Transparent;
+            this.sock2Box.Image = global::OOP_Project.Properties.Resources.sock;
+            this.sock2Box.Location = new System.Drawing.Point(494, 480);
+            this.sock2Box.Name = "sock2Box";
+            this.sock2Box.Size = new System.Drawing.Size(60, 60);
+            this.sock2Box.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.sock2Box.TabIndex = 16;
+            this.sock2Box.TabStop = false;
             // 
             // shirt2Box
             // 
@@ -238,7 +268,7 @@
             // 
             this.heart2.BackColor = System.Drawing.Color.Transparent;
             this.heart2.Image = global::OOP_Project.Properties.Resources.heart;
-            this.heart2.Location = new System.Drawing.Point(64, 512);
+            this.heart2.Location = new System.Drawing.Point(64, 480);
             this.heart2.Name = "heart2";
             this.heart2.Size = new System.Drawing.Size(54, 50);
             this.heart2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -249,23 +279,12 @@
             // 
             this.heart1.BackColor = System.Drawing.Color.Transparent;
             this.heart1.Image = global::OOP_Project.Properties.Resources.heart;
-            this.heart1.Location = new System.Drawing.Point(124, 512);
+            this.heart1.Location = new System.Drawing.Point(124, 480);
             this.heart1.Name = "heart1";
             this.heart1.Size = new System.Drawing.Size(54, 50);
             this.heart1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.heart1.TabIndex = 10;
             this.heart1.TabStop = false;
-            // 
-            // heart3
-            // 
-            this.heart3.BackColor = System.Drawing.Color.Transparent;
-            this.heart3.Image = global::OOP_Project.Properties.Resources.heart;
-            this.heart3.Location = new System.Drawing.Point(4, 512);
-            this.heart3.Name = "heart3";
-            this.heart3.Size = new System.Drawing.Size(54, 50);
-            this.heart3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.heart3.TabIndex = 9;
-            this.heart3.TabStop = false;
             // 
             // ghostPic
             // 
@@ -278,16 +297,29 @@
             this.ghostPic.TabIndex = 0;
             this.ghostPic.TabStop = false;
             // 
-            // sock2Box
+            // btnNext
             // 
-            this.sock2Box.BackColor = System.Drawing.Color.Transparent;
-            this.sock2Box.Image = global::OOP_Project.Properties.Resources.sock;
-            this.sock2Box.Location = new System.Drawing.Point(494, 480);
-            this.sock2Box.Name = "sock2Box";
-            this.sock2Box.Size = new System.Drawing.Size(60, 60);
-            this.sock2Box.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.sock2Box.TabIndex = 16;
-            this.sock2Box.TabStop = false;
+            this.btnNext.Enabled = false;
+            this.btnNext.Location = new System.Drawing.Point(1141, 595);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(158, 56);
+            this.btnNext.TabIndex = 10;
+            this.btnNext.Text = "Level 2";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Visible = false;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnHome
+            // 
+            this.btnHome.Enabled = false;
+            this.btnHome.Location = new System.Drawing.Point(968, 595);
+            this.btnHome.Name = "btnHome";
+            this.btnHome.Size = new System.Drawing.Size(158, 56);
+            this.btnHome.TabIndex = 17;
+            this.btnHome.Text = "Home";
+            this.btnHome.UseVisualStyleBackColor = true;
+            this.btnHome.Visible = false;
+            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // Form1
             // 
@@ -297,9 +329,6 @@
             this.BackgroundImage = global::OOP_Project.Properties.Resources._base;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1345, 662);
-            this.Controls.Add(this.lblPickup);
-            this.Controls.Add(this.lblInventory);
-            this.Controls.Add(this.washBox);
             this.Controls.Add(this.gamePanel);
             this.DoubleBuffered = true;
             this.KeyPreview = true;
@@ -316,15 +345,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.sinkBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shirtBox)).EndInit();
             this.gamePanel.ResumeLayout(false);
+            this.gamePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.heart3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sock2Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shirt2Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.towelBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sockBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bucketBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.heart1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.heart3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostPic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sock2Box)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -349,6 +379,8 @@
         private System.Windows.Forms.PictureBox bucketBox;
         private System.Windows.Forms.PictureBox shirt2Box;
         private System.Windows.Forms.PictureBox sock2Box;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnHome;
     }
 }
 

@@ -19,8 +19,8 @@ namespace OOP_Project
 
         private readonly HashSet<Keys> heldKeys = new HashSet<Keys>();
         private System.Windows.Forms.Timer gameTimer;
-        private List<PictureBox> Hide;
-        private List<PictureBox> obstaclesList;
+
+
 
         private int pickupMsgTimer = 0;
 
@@ -29,8 +29,18 @@ namespace OOP_Project
 
         private Resizer resizer;
 
+        private List<string> storyLine = new List<string>();
+        private int currentLineIndex = 0;
+        //Typewriter effect
+        private Timer typewriterTimer = new Timer();
+        private string currentText = "";
+        private int charIndex = 0;
+        private bool isTyping = false; // prevent skipping during typing
+
+
         private List<GameTaskBase> tasks = new List<GameTaskBase>();
         private int currentTaskIndex = 0;
+        private bool tasksComplete = false;
         Player player;
         GameManager game;
         Ghost enemy;
@@ -42,13 +52,16 @@ namespace OOP_Project
         public HashSet<Keys> HeldKeys => heldKeys;
         public Label LblInventory => lblInventory;
         public Label LblPickup => lblPickup;
+        public Label LblInstruction => lblInstruction;
 
 
         int damageCooldown = 0;
         int warningTimer = 150;
         Label lblWarning = new Label();
         Label lblStatus = new Label();
+        Label lblInstruction = new Label();
         bool isGameOver = false;
+
 
 
         public Form1()
@@ -73,11 +86,12 @@ namespace OOP_Project
             bool moved = false;
 
             //task
+            
             if (currentTaskIndex < tasks.Count)
             {
                 var currentTask = tasks[currentTaskIndex];
                 currentTask.Update(this);
-                if (!isGameOver) // <-- add this
+                if (!isGameOver) 
                     lblStatus.Text = "Task: " + currentTask.GetTaskName();
 
                 if (currentTask.IsCompleted)
@@ -86,11 +100,16 @@ namespace OOP_Project
                     if (currentTaskIndex < tasks.Count)
                     {
                         tasks[currentTaskIndex].Start(this);
+                        tasksComplete = false;
                     }
                     else
                     {
                         if (!isGameOver)
+                        {
                             lblStatus.Text = "ALL TASKS COMPLETED!";
+                            tasksComplete = true;
+                        }
+
                     }
                 }
 
@@ -106,7 +125,7 @@ namespace OOP_Project
 
 
             // UPDATE GHOST
-            enemy.Update(characterBox, obstaclesList, this.ClientSize, isHiding);
+            enemy.Update(characterBox, game.GetObstacles(), this.ClientSize, isHiding);
 
             // SHOW "BE AWARE" when entering
             if (enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
@@ -155,7 +174,8 @@ namespace OOP_Project
                 string picked = game.CheckPickup(player);
                 if (picked != null)
                 {
-                    lblInventory.Text = "Inventory: " + player.inventory.ToString();
+                    //lblInventory.Text = "Inventory: " + player.inventory.ToString();
+                    UpdateInventoryLabel();
                     lblPickup.Text = $"Picked up: {picked}!";
                     pickupMsgTimer = 120;
                 }
@@ -167,52 +187,111 @@ namespace OOP_Project
                 if (pickupMsgTimer == 0) lblPickup.Text = "";
             }
 
+            //next level
+            if (tasksComplete == true)
+            {
+                btnNext.Visible = true;
+                btnHome.Visible = true;
+                btnNext.Enabled = true;
+                btnHome.Enabled = true;
+;
 
+            }
         }
 
 
         private void keyIsUp(object sender, KeyEventArgs e)
-    {
+        {
             heldKeys.Remove(e.KeyCode);
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            lblInventory.Width = 533;
+            lblInventory.Height = 35;
+            lblInventory.AutoSize = false;
+
             player = new Player(characterBox, 4);
             enemy = new Ghost(ghostPic, 1);
             heart = new Health(heart1, heart2, heart3);
 
-            obstaclesList = new List<PictureBox>()
-            {
+            Level level1 = new Level(new List<PictureBox>()
+             {
                 leftToiletBox,
                 rightToiletBox,
                 sinkBox,
-                washBox,
-            };
+                washBox
+             },
+             new List<PictureBox>() // hide spots
+             {
+                leftToiletBox,
+                rightToiletBox
+             },
+             new List<Item>()//items
+             {
+                new Item("Shirt", shirtBox),
+                new Item("Sock", sockBox),
+                new Item("Sock", sock2Box),
+                new Item("Towel", towelBox),
+                new Item("Shirt", shirt2Box),
+                new Item("Bucket", bucketBox)
+             },
+             new List<PictureBox>() //washstations
+             {
+                washBox
+             },
+             new List<PictureBox>() //water stations
+             {
+                sinkBox
+             }
+            );
 
-            Hide = new List<PictureBox>()
+            game = new GameManager();
+            game.LoadLevel(level1);
+
+
+
+            lblInstruction = new Label();
+            lblInstruction.Text = "CONTROLS: \n Move : WASD or Arrow Keys \n Hide/Unhide : E (when near a hiding spot) \n Perform Tasks : F \n Select Inventory Items : Number Keys";
+            lblInstruction.BackColor = Color.FromArgb(200, 0, 0, 0); // semi-transparent black
+            lblInstruction.ForeColor = Color.White;
+            lblInstruction.Font = new Font("Arial", 12, FontStyle.Regular);
+            lblInstruction.AutoSize = false; // allow manual size
+            lblInstruction.Size = new Size(1000, 150); // adjust as needed
+            lblInstruction.TextAlign = ContentAlignment.MiddleCenter;
+
+            lblInstruction.Location = new Point((this.ClientSize.Width - lblInstruction.Width) / 2,
+    (this.ClientSize.Height - lblInstruction.Height) / 2);
+            lblInstruction.Visible = true;
+
+
+            this.Controls.Add(lblInstruction);
+            lblInstruction.BringToFront();
+
+            //storyline
+            storyLine = new List<string>()
             {
-                leftToiletBox,rightToiletBox
+                "Meet Yana, a quiet student at a girls' school...",
+                "One night, past midnight, a senior appeared in the empty corridor.",
+                "\"Yana... I need you to wash my clothes,\" the senior whispered.",
+                "Yana’s heart raced. She knew disobeying meant punishment...",
+                "But obeying meant she might be trapped in the dark school alone.",
+                "She must complete the tasks quietly and carefully.",
+                "Remember: the shadows are watching.",
+                "If something approaches, hide immediately! Don't let it catch you...",
+                "Use WASD or Arrow Keys to move Yana around the rooms.",
+                "Press E to hide when near hiding spots to avoid detection.",
+                "Press F to perform tasks like washing or filling the bucket.",
+                "Select items from the inventory using the number keys.",
+                "Every sound could give you away... Good luck!"
             };
 
-            game = new GameManager(obstaclesList);
 
 
-            game.AddItem(new Item("Shirt", shirtBox));
-            game.AddItem(new Item("Sock", sockBox));
-            game.AddItem(new Item("Sock", sock2Box));
-            game.AddItem(new Item("Towel", towelBox));
-            game.AddItem(new Item("Shirt", shirt2Box));
-            game.AddItem(new Item("Bucket", bucketBox));
-
-
-
-            // -- Game timer (runs every 16ms ~ 60fps) ---
-            gameTimer = new System.Windows.Forms.Timer { Interval = 16 };
-            gameTimer.Tick += GameLoop;
-            gameTimer.Start();
-
+            // Display the first line
+            lblInstruction.Text = storyLine[currentLineIndex];
 
             // create Resizer
             resizer = new Resizer(this, player, enemy);
@@ -246,7 +325,8 @@ namespace OOP_Project
             this.Controls.Add(lblStatus);
 
 
-            lblInventory.Text = "Inventory: " + player.inventory.ToString();
+            //lblInventory.Text = "Inventory: " + player.inventory.ToString();
+            UpdateInventoryLabel();
 
             tasks.Add(new PickUpTask());
             tasks.Add(new FillBucketTask());
@@ -269,13 +349,47 @@ namespace OOP_Project
                 player.inventory.SelectHotbar(index);
 
                 // Update label immediately
-                lblInventory.Text = "Inventory: " + player.inventory.ToString();
+                UpdateInventoryLabel();
+
+            }
+
+            //storyline intro
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (isTyping)
+                {
+                    // If typing is still ongoing, skip to full line
+                    typewriterTimer.Stop();
+                    lblInstruction.Text = currentText;
+                    isTyping = false;
+                }
+                else
+                {
+                    // Move to next line
+                    currentLineIndex++;
+                    if (currentLineIndex < storyLine.Count)
+                    {
+                        ShowLine(storyLine[currentLineIndex]);
+                    }
+                    else
+                    {
+                        // End of storyline
+                        lblInstruction.Visible = false;
+                        //// -- Game timer (runs every 16ms ~ 60fps) ---
+                        gameTimer = new System.Windows.Forms.Timer { Interval = 16 };
+                        gameTimer.Tick += GameLoop;
+                        gameTimer.Start();
+                    }
+                }
+
+
+
             }
 
             //other key logic
             if (e.KeyCode == Keys.E)
             {
-                if (!isHiding && game.NearHide(player,Hide))
+                if (!isHiding && game.NearHide(player))
                 {
                     isHiding = true;
                     player.Hide();
@@ -283,14 +397,15 @@ namespace OOP_Project
                 else if (isHiding)
                 {
                     isHiding = false;
-                    Rectangle toiletBounds = game.GetNearestToilet(player);
-                    int newX = toiletBounds.Left + (toiletBounds.Width - player.CharacterBox.Width) / 2;
-                    int newY = toiletBounds.Bottom + 5;
+                    Rectangle hideBounds = game.GetNearestHideSpot(player);
+                    int newX = hideBounds.Left + (hideBounds.Width - player.CharacterBox.Width) / 2;
+                    int newY = hideBounds.Bottom + 5;
                     player.CharacterBox.Location = new Point(newX, newY);
                     player.Show();
                 }
             }
             base.OnKeyDown(e);
+
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
@@ -298,6 +413,46 @@ namespace OOP_Project
             heldKeys.Remove(e.KeyCode);
             base.OnKeyUp(e);
         }
+
+        private void UpdateInventoryLabel()
+
+        {
+
+            string text = "Inventory: " + player.inventory.ToString();
+            lblInventory.Text = text;
+
+            // Measure text width
+            Size textSize = TextRenderer.MeasureText(text, lblInventory.Font);
+
+            int fixedWidth = 533;
+            int fixedHeight = 35;
+            int maxWidth = 691;
+
+            if (textSize.Width <= fixedWidth)
+            {
+                // Text fits, use fixed size
+                lblInventory.AutoSize = false;
+                lblInventory.Width = fixedWidth;
+                lblInventory.Height = fixedHeight;
+                lblInventory.Height = fixedHeight;
+            }
+            else if (textSize.Width <= maxWidth)
+            {
+                // Text exceeds fixed but under max width, expand width
+                lblInventory.AutoSize = false;
+                lblInventory.Width = textSize.Width + 20; // add some padding
+                lblInventory.Height = fixedHeight;
+            }
+            else
+            {
+                // Text exceeds max width, allow wrapping
+                lblInventory.AutoSize = true;
+                lblInventory.MaximumSize = new Size(maxWidth, 0); // max width, height auto
+            }
+        }
+
+
+
 
         //to resize when enlarge
         private void Form1_Resize(object sender, EventArgs e)
@@ -309,6 +464,55 @@ namespace OOP_Project
 
         }
 
-    
+        private void ShowLine(string line)
+        {
+            if (isTyping) return; // prevent overlapping
+            isTyping = true;
+
+            currentText = line;
+            charIndex = 0;
+            lblInstruction.Text = "";
+
+            typewriterTimer.Interval = 30; // milliseconds per character
+            typewriterTimer.Tick -= TypewriterTimer_Tick; // remove previous handlers
+            typewriterTimer.Tick += TypewriterTimer_Tick;
+            typewriterTimer.Start();
+        }
+
+        private void TypewriterTimer_Tick(object sender, EventArgs e)
+        {
+            if (charIndex < currentText.Length)
+            {
+                lblInstruction.Text += currentText[charIndex];
+                charIndex++;
+            }
+            else
+            {
+                typewriterTimer.Stop();
+                isTyping = false; // finished typing
+            }
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.Show();
+            this.Close();
+        }
+
+        private void gamePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnHome_Click(object sender, EventArgs e)
+        {
+            Start start = new Start();
+            start.Show();
+            this.Close(); 
+        }
     }
 }
+       
+
+        

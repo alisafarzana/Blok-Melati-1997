@@ -21,6 +21,7 @@ namespace OOP_Project
                 if (held != null && held.Name == "Bucket")
                 {
                     held.Name = "Filled_Bucket";
+
                     game.LblInventory.Text = "Inventory: " + game.Player.inventory.ToString();
                     game.LblPickup.Text = "Bucket filled!";
                     IsCompleted = true;
@@ -35,10 +36,14 @@ namespace OOP_Project
             Rectangle playerArea = game.Player.CharacterBox.Bounds;
             playerArea.Inflate(10, 10);
 
+            //near sink
+            bool nearSink = game.Game.GetWaterStations()
+            .Any(s => playerArea.IntersectsWith(s.Bounds));
+
             if (game.HeldKeys.Contains(Keys.F) &&
-                held != null &&
-                held.Name == "Bucket" &&
-                playerArea.IntersectsWith(game.Game.SinkBox.Bounds))
+                 held != null &&
+                 held.Name == "Bucket" &&
+                 nearSink)
             {
                 if (!fillTask.IsRunning)
                     fillTask.Start();

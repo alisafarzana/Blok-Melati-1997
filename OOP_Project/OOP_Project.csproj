@@ -67,6 +67,7 @@
     <Compile Include="health.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="PickUpTask.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

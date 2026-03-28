@@ -17,10 +17,14 @@ namespace OOP_Project
             Rectangle playerArea = game.Player.CharacterBox.Bounds;
             playerArea.Inflate(10, 10);
 
+            bool nearWash = game.Game.GetWashStations()
+                .Any(w => playerArea.IntersectsWith(w.Bounds));
+
+            
             if (game.HeldKeys.Contains(Keys.F) &&
                 held != null &&
                 held.Name == "Filled_Bucket" &&
-                playerArea.IntersectsWith(game.Game.WashBox.Bounds))
+                nearWash)
             {
                 bool hasClothes = game.Player.inventory.items
                     .Any(i => i.Name == "Shirt" || i.Name == "Sock" || i.Name == "Towel");

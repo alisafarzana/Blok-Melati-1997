@@ -22,6 +22,8 @@ namespace OOP_Project
         private int stateTimer = 300; // waiting 5 sec
         private int roamDuration = 300;
 
+     
+
 
         public Ghost(PictureBox box, int speed) : base(box, speed) //constructor
         {
@@ -152,6 +154,8 @@ namespace OOP_Project
             CharacterBox.Visible = true;
             state = GhostState.Entering;
             CharacterBox.BringToFront();
+
+            
         }
 
         private void StartExiting() => state = GhostState.Exiting;
@@ -224,5 +228,6 @@ namespace OOP_Project
             Animate(currentDirection);
         }
 
+        
     }
 }

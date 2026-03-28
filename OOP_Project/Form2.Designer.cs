@@ -41,6 +41,7 @@
             this.bush1 = new System.Windows.Forms.PictureBox();
             this.bush2 = new System.Windows.Forms.PictureBox();
             this.bush3 = new System.Windows.Forms.PictureBox();
+            this.lblInventory = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ampaian1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charBox)).BeginInit();
@@ -60,7 +61,7 @@
             // 
             this.ampaian1.BackColor = System.Drawing.Color.Transparent;
             this.ampaian1.Image = global::OOP_Project.Properties.Resources.Untitled74_20260327172426;
-            this.ampaian1.Location = new System.Drawing.Point(917, 232);
+            this.ampaian1.Location = new System.Drawing.Point(904, 235);
             this.ampaian1.Name = "ampaian1";
             this.ampaian1.Size = new System.Drawing.Size(413, 135);
             this.ampaian1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -71,21 +72,22 @@
             // 
             this.ghostBox.BackColor = System.Drawing.Color.Transparent;
             this.ghostBox.Image = global::OOP_Project.Properties.Resources.ghostFront;
-            this.ghostBox.Location = new System.Drawing.Point(1196, 61);
+            this.ghostBox.Location = new System.Drawing.Point(1181, 93);
             this.ghostBox.Name = "ghostBox";
-            this.ghostBox.Size = new System.Drawing.Size(70, 82);
+            this.ghostBox.Size = new System.Drawing.Size(75, 83);
             this.ghostBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ghostBox.TabIndex = 2;
             this.ghostBox.TabStop = false;
+            this.ghostBox.Click += new System.EventHandler(this.ghostBox_Click);
             // 
             // charBox
             // 
             this.charBox.BackColor = System.Drawing.Color.Transparent;
             this.charBox.ErrorImage = global::OOP_Project.Properties.Resources.D2;
             this.charBox.Image = global::OOP_Project.Properties.Resources.D2;
-            this.charBox.Location = new System.Drawing.Point(247, 61);
+            this.charBox.Location = new System.Drawing.Point(382, 149);
             this.charBox.Name = "charBox";
-            this.charBox.Size = new System.Drawing.Size(73, 82);
+            this.charBox.Size = new System.Drawing.Size(73, 80);
             this.charBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.charBox.TabIndex = 1;
             this.charBox.TabStop = false;
@@ -94,7 +96,7 @@
             // 
             this.ampaian2.BackColor = System.Drawing.Color.Transparent;
             this.ampaian2.Image = global::OOP_Project.Properties.Resources.Untitled74_20260327172235;
-            this.ampaian2.Location = new System.Drawing.Point(472, 6);
+            this.ampaian2.Location = new System.Drawing.Point(472, -7);
             this.ampaian2.Name = "ampaian2";
             this.ampaian2.Size = new System.Drawing.Size(664, 137);
             this.ampaian2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -105,7 +107,7 @@
             // 
             this.ampaian3.BackColor = System.Drawing.Color.Transparent;
             this.ampaian3.Image = global::OOP_Project.Properties.Resources.Untitled74_20260327172209;
-            this.ampaian3.Location = new System.Drawing.Point(101, 235);
+            this.ampaian3.Location = new System.Drawing.Point(105, 235);
             this.ampaian3.Name = "ampaian3";
             this.ampaian3.Size = new System.Drawing.Size(639, 132);
             this.ampaian3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -193,12 +195,24 @@
             // 
             this.bush3.BackColor = System.Drawing.Color.Transparent;
             this.bush3.Image = global::OOP_Project.Properties.Resources.bush;
-            this.bush3.Location = new System.Drawing.Point(364, 76);
+            this.bush3.Location = new System.Drawing.Point(364, 60);
             this.bush3.Name = "bush3";
             this.bush3.Size = new System.Drawing.Size(102, 83);
             this.bush3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.bush3.TabIndex = 17;
             this.bush3.TabStop = false;
+            // 
+            // lblInventory
+            // 
+            this.lblInventory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblInventory.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInventory.ForeColor = System.Drawing.Color.White;
+            this.lblInventory.Location = new System.Drawing.Point(188, 23);
+            this.lblInventory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblInventory.Name = "lblInventory";
+            this.lblInventory.Size = new System.Drawing.Size(533, 35);
+            this.lblInventory.TabIndex = 19;
+            this.lblInventory.Text = "Inventory :";
             // 
             // Form2
             // 
@@ -207,6 +221,7 @@
             this.BackgroundImage = global::OOP_Project.Properties.Resources.Untitled74_20260327002100;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1329, 617);
+            this.Controls.Add(this.lblInventory);
             this.Controls.Add(this.charBox);
             this.Controls.Add(this.ampaian3);
             this.Controls.Add(this.bush3);
@@ -257,5 +272,6 @@
         private System.Windows.Forms.PictureBox bush1;
         private System.Windows.Forms.PictureBox bush2;
         private System.Windows.Forms.PictureBox bush3;
+        private System.Windows.Forms.Label lblInventory;
     }
 }
