@@ -9,56 +9,58 @@ namespace OOP_Project
 {
     public class TimedTask
     {
-        private int durationTicks;
-        private int progress = 0;
+        private int duration;
+        private int elapsed;
         private Timer timer;
         private Action onComplete;
 
         public bool IsRunning { get; private set; } = false;
 
-        // duration in milliseconds
+        public int Progress
+        {
+            get
+            {
+                if (duration == 0) return 0;
+                return Math.Min(100, (int)((elapsed / (float)duration) * 100));
+            }
+        }
+
         public TimedTask(int durationMs, Action onComplete)
         {
-            durationTicks = durationMs / 16; // ~60fps
+            duration = durationMs;
+            elapsed = 0;
             this.onComplete = onComplete;
 
             timer = new Timer();
-            timer.Interval = 16;
-            timer.Tick += Timer_Tick;
-        }
+            timer.Interval = 16; // ~60 FPS
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            progress++;
-
-            if (progress >= durationTicks)
+            timer.Tick += (s, e) =>
             {
-                Complete();
-            }
+                elapsed += timer.Interval;
+
+                if (elapsed >= duration)
+                {
+                    timer.Stop();
+                    IsRunning = false;
+                    onComplete?.Invoke();
+                }
+            };
         }
 
         public void Start()
         {
-            if (!IsRunning)
-            {
-                progress = 0;
-                IsRunning = true;
-                timer.Start();
-            }
+            if (IsRunning) return;
+
+            elapsed = 0;
+            IsRunning = true;
+            timer.Start();
         }
 
         public void Cancel()
         {
             timer.Stop();
-            progress = 0;
             IsRunning = false;
-        }
-
-        private void Complete()
-        {
-            timer.Stop();
-            IsRunning = false;
-            onComplete?.Invoke();
+            elapsed = 0;
         }
     }
 }

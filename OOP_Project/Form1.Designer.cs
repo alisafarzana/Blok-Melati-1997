@@ -38,6 +38,8 @@
             this.lblInventory = new System.Windows.Forms.Label();
             this.lblPickup = new System.Windows.Forms.Label();
             this.gamePanel = new System.Windows.Forms.Panel();
+            this.btnHome = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
             this.heart3 = new System.Windows.Forms.PictureBox();
             this.sock2Box = new System.Windows.Forms.PictureBox();
             this.shirt2Box = new System.Windows.Forms.PictureBox();
@@ -47,8 +49,7 @@
             this.heart2 = new System.Windows.Forms.PictureBox();
             this.heart1 = new System.Windows.Forms.PictureBox();
             this.ghostPic = new System.Windows.Forms.PictureBox();
-            this.btnNext = new System.Windows.Forms.Button();
-            this.btnHome = new System.Windows.Forms.Button();
+            this.taskBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.characterBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightToiletBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.washBox)).BeginInit();
@@ -97,7 +98,7 @@
             this.washBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.washBox.BackColor = System.Drawing.Color.Transparent;
             this.washBox.Image = ((System.Drawing.Image)(resources.GetObject("washBox.Image")));
-            this.washBox.Location = new System.Drawing.Point(844, 559);
+            this.washBox.Location = new System.Drawing.Point(883, 559);
             this.washBox.Margin = new System.Windows.Forms.Padding(4);
             this.washBox.Name = "washBox";
             this.washBox.Size = new System.Drawing.Size(465, 102);
@@ -172,6 +173,7 @@
             this.gamePanel.BackColor = System.Drawing.SystemColors.Control;
             this.gamePanel.BackgroundImage = global::OOP_Project.Properties.Resources._base;
             this.gamePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.gamePanel.Controls.Add(this.taskBar);
             this.gamePanel.Controls.Add(this.btnHome);
             this.gamePanel.Controls.Add(this.btnNext);
             this.gamePanel.Controls.Add(this.washBox);
@@ -196,6 +198,30 @@
             this.gamePanel.Size = new System.Drawing.Size(1348, 665);
             this.gamePanel.TabIndex = 9;
             this.gamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gamePanel_Paint);
+            // 
+            // btnHome
+            // 
+            this.btnHome.Enabled = false;
+            this.btnHome.Location = new System.Drawing.Point(968, 595);
+            this.btnHome.Name = "btnHome";
+            this.btnHome.Size = new System.Drawing.Size(158, 56);
+            this.btnHome.TabIndex = 17;
+            this.btnHome.Text = "Home";
+            this.btnHome.UseVisualStyleBackColor = true;
+            this.btnHome.Visible = false;
+            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
+            // 
+            // btnNext
+            // 
+            this.btnNext.Enabled = false;
+            this.btnNext.Location = new System.Drawing.Point(1141, 595);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(158, 56);
+            this.btnNext.TabIndex = 10;
+            this.btnNext.Text = "Level 2";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Visible = false;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // heart3
             // 
@@ -297,29 +323,12 @@
             this.ghostPic.TabIndex = 0;
             this.ghostPic.TabStop = false;
             // 
-            // btnNext
+            // taskBar
             // 
-            this.btnNext.Enabled = false;
-            this.btnNext.Location = new System.Drawing.Point(1141, 595);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(158, 56);
-            this.btnNext.TabIndex = 10;
-            this.btnNext.Text = "Level 2";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Visible = false;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-            // 
-            // btnHome
-            // 
-            this.btnHome.Enabled = false;
-            this.btnHome.Location = new System.Drawing.Point(968, 595);
-            this.btnHome.Name = "btnHome";
-            this.btnHome.Size = new System.Drawing.Size(158, 56);
-            this.btnHome.TabIndex = 17;
-            this.btnHome.Text = "Home";
-            this.btnHome.UseVisualStyleBackColor = true;
-            this.btnHome.Visible = false;
-            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
+            this.taskBar.Location = new System.Drawing.Point(320, 333);
+            this.taskBar.Name = "taskBar";
+            this.taskBar.Size = new System.Drawing.Size(100, 23);
+            this.taskBar.TabIndex = 18;
             // 
             // Form1
             // 
@@ -381,6 +390,7 @@
         private System.Windows.Forms.PictureBox sock2Box;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnHome;
+        private System.Windows.Forms.ProgressBar taskBar;
     }
 }
 

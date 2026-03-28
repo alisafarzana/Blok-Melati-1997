@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
@@ -54,6 +55,8 @@ namespace OOP_Project
         public Label LblPickup => lblPickup;
         public Label LblInstruction => lblInstruction;
 
+        public ProgressBar TaskBar => taskBar;
+
 
         int damageCooldown = 0;
         int warningTimer = 150;
@@ -83,10 +86,16 @@ namespace OOP_Project
 
         private void GameLoop(object sender, EventArgs e)
         {
+            if (isGameOver) return; // 🔥 ADD THIS LINE
             bool moved = false;
 
+
+            // ✅ Make taskBar follow player
+            taskBar.Left = player.CharacterBox.Left;
+            taskBar.Top = player.CharacterBox.Top - 20; // above player
+
             //task
-            
+
             if (currentTaskIndex < tasks.Count)
             {
                 var currentTask = tasks[currentTaskIndex];
@@ -159,9 +168,12 @@ namespace OOP_Project
                 if (isGameOver)
                 {
                     gameTimer.Stop();
+                    heldKeys.Clear();
                     lblStatus.Text = "GAME OVER";
                     lblStatus.Visible = true;
                     lblStatus.BringToFront();
+
+                    return;
                 }
             }
 
@@ -187,6 +199,7 @@ namespace OOP_Project
                 if (pickupMsgTimer == 0) lblPickup.Text = "";
             }
 
+            FixLayers();
             //next level
             if (tasksComplete == true)
             {
@@ -334,6 +347,13 @@ namespace OOP_Project
 
             tasks[currentTaskIndex].Start(this);
 
+
+            //task bar setup
+            taskBar.Visible = false;
+            taskBar.Minimum = 0;
+            taskBar.Maximum = 100;
+            taskBar.Value = 0;
+            taskBar.BringToFront();
         }
 
 
@@ -341,6 +361,11 @@ namespace OOP_Project
         protected override void OnKeyDown(KeyEventArgs e)
         {
             heldKeys.Add(e.KeyCode);
+
+            if(isGameOver)
+            {
+                return;
+            }
 
             // Hotbar selection
             if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D6)
@@ -491,6 +516,14 @@ namespace OOP_Project
                 typewriterTimer.Stop();
                 isTyping = false; // finished typing
             }
+        }
+
+        private void FixLayers()
+        {
+
+            sinkBox.BringToFront();  // sink above ghost
+
+            taskBar.BringToFront();  // UI always on top
         }
 
         private void btnNext_Click(object sender, EventArgs e)

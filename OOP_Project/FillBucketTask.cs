@@ -48,11 +48,17 @@ namespace OOP_Project
                 if (!fillTask.IsRunning)
                     fillTask.Start();
 
+                // ✅ SHOW BAR
+                game.TaskBar.Visible = true;
+                game.TaskBar.Value = fillTask.Progress;
+
                 game.LblPickup.Text = "Filling bucket...";
             }
             else
             {
                 fillTask.Cancel();
+                // ✅ HIDE BAR
+                game.TaskBar.Visible = false;
             }
         }
 
