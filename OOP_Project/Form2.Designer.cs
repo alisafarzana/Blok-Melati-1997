@@ -42,6 +42,11 @@
             this.bush2 = new System.Windows.Forms.PictureBox();
             this.bush3 = new System.Windows.Forms.PictureBox();
             this.lblInventory = new System.Windows.Forms.Label();
+            this.hangBox1 = new System.Windows.Forms.PictureBox();
+            this.hangBox2 = new System.Windows.Forms.PictureBox();
+            this.hangBox3 = new System.Windows.Forms.PictureBox();
+            this.hangBox4 = new System.Windows.Forms.PictureBox();
+            this.hangBox5 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ampaian1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charBox)).BeginInit();
@@ -55,6 +60,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.bush1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bush2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bush3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // ampaian1
@@ -78,7 +88,6 @@
             this.ghostBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ghostBox.TabIndex = 2;
             this.ghostBox.TabStop = false;
-            this.ghostBox.Click += new System.EventHandler(this.ghostBox_Click);
             // 
             // charBox
             // 
@@ -214,6 +223,61 @@
             this.lblInventory.TabIndex = 19;
             this.lblInventory.Text = "Inventory :";
             // 
+            // hangBox1
+            // 
+            this.hangBox1.BackColor = System.Drawing.Color.Transparent;
+            this.hangBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hangBox1.Location = new System.Drawing.Point(93, 501);
+            this.hangBox1.Name = "hangBox1";
+            this.hangBox1.Size = new System.Drawing.Size(88, 81);
+            this.hangBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.hangBox1.TabIndex = 20;
+            this.hangBox1.TabStop = false;
+            // 
+            // hangBox2
+            // 
+            this.hangBox2.BackColor = System.Drawing.Color.Transparent;
+            this.hangBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hangBox2.Location = new System.Drawing.Point(245, 501);
+            this.hangBox2.Name = "hangBox2";
+            this.hangBox2.Size = new System.Drawing.Size(88, 81);
+            this.hangBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.hangBox2.TabIndex = 21;
+            this.hangBox2.TabStop = false;
+            // 
+            // hangBox3
+            // 
+            this.hangBox3.BackColor = System.Drawing.Color.Transparent;
+            this.hangBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hangBox3.Location = new System.Drawing.Point(1114, 501);
+            this.hangBox3.Name = "hangBox3";
+            this.hangBox3.Size = new System.Drawing.Size(88, 81);
+            this.hangBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.hangBox3.TabIndex = 22;
+            this.hangBox3.TabStop = false;
+            // 
+            // hangBox4
+            // 
+            this.hangBox4.BackColor = System.Drawing.Color.Transparent;
+            this.hangBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hangBox4.Location = new System.Drawing.Point(855, 12);
+            this.hangBox4.Name = "hangBox4";
+            this.hangBox4.Size = new System.Drawing.Size(109, 118);
+            this.hangBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.hangBox4.TabIndex = 23;
+            this.hangBox4.TabStop = false;
+            // 
+            // hangBox5
+            // 
+            this.hangBox5.BackColor = System.Drawing.Color.Transparent;
+            this.hangBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hangBox5.Location = new System.Drawing.Point(1023, 12);
+            this.hangBox5.Name = "hangBox5";
+            this.hangBox5.Size = new System.Drawing.Size(88, 81);
+            this.hangBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.hangBox5.TabIndex = 24;
+            this.hangBox5.TabStop = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -221,6 +285,11 @@
             this.BackgroundImage = global::OOP_Project.Properties.Resources.Untitled74_20260327002100;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1329, 617);
+            this.Controls.Add(this.hangBox5);
+            this.Controls.Add(this.hangBox4);
+            this.Controls.Add(this.hangBox3);
+            this.Controls.Add(this.hangBox2);
+            this.Controls.Add(this.hangBox1);
             this.Controls.Add(this.lblInventory);
             this.Controls.Add(this.charBox);
             this.Controls.Add(this.ampaian3);
@@ -238,8 +307,6 @@
             this.Name = "Form2";
             this.Text = "Blok Melati 1997";
             this.Load += new System.EventHandler(this.Form2_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form2_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form2_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.ampaian1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.charBox)).EndInit();
@@ -253,6 +320,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.bush1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bush2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bush3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangBox5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -273,5 +345,10 @@
         private System.Windows.Forms.PictureBox bush2;
         private System.Windows.Forms.PictureBox bush3;
         private System.Windows.Forms.Label lblInventory;
+        private System.Windows.Forms.PictureBox hangBox1;
+        private System.Windows.Forms.PictureBox hangBox2;
+        private System.Windows.Forms.PictureBox hangBox3;
+        private System.Windows.Forms.PictureBox hangBox4;
+        private System.Windows.Forms.PictureBox hangBox5;
     }
 }

@@ -12,8 +12,6 @@ namespace OOP_Project
     {
 
 
-
-
         public Player(PictureBox box, int speed) : base(box, speed)
         {
             CharacterBox = box;
@@ -52,7 +50,7 @@ namespace OOP_Project
             };
         }
 
-        public Inventory inventory { get; private set; } = new Inventory();
+        public Inventory inventory { get; set; } = new Inventory();
 
         /// Call after every move. Returns item name if picked up, else null.
 

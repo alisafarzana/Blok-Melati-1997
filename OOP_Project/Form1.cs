@@ -528,7 +528,7 @@ namespace OOP_Project
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
+            Form2 form2 = new Form2(player.inventory);
             form2.Show();
             this.Close();
         }

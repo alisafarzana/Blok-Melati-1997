@@ -14,111 +14,90 @@ namespace OOP_Project
     public partial class Form2 : Form
     {
         private readonly HashSet<Keys> heldKeys = new HashSet<Keys>();
-        private System.Windows.Forms.Timer gameTimer;
-
+        private Timer gameTimer;
         private bool isHiding = false;
-
         private Resizer resizer;
 
-        //storyline
         private List<string> storyLine = new List<string>();
         private int currentLineIndex = 0;
-        //Typewriter effect
         private Timer typewriterTimer = new Timer();
         private string currentText = "";
         private int charIndex = 0;
-        private bool isTyping = false; // prevent skipping during typing
+        private bool isTyping = false;
 
-
-        //private List<GameTaskBase> tasks = new List<GameTaskBase>();
-        //private int currentTaskIndex = 0;
-        Player player;
+        // 🔥 Remove old 'player' instance, use only Player property
+        // Player player;  <-- REMOVED
         GameManager game;
         Ghost enemy;
         Health heart;
-        PictureBox hangSock1;
-        PictureBox hangSock2;
-        PictureBox hangCloth1;
-        PictureBox hangCloth2;
-        PictureBox hangTowel;
 
+        private Inventory passedInventory;
+        private HangTask hangTask;
+        private ProgressBar hangProgress;
+        public Player Player { get; private set; } // 🔥 SINGLE PLAYER INSTANCE
 
-        public Label LblInventory => lblInventory;
-        //public Label LblPickup => lblPickup;
-        public Label LblInstruction => lblInstruction;
-
-
-        int damageCooldown = 0;
-        int warningTimer = 150;
         Label lblWarning = new Label();
         Label lblStatus = new Label();
         Label lblInstruction = new Label();
+        Label lblCompleted = new Label();
         bool isGameOver = false;
+        int damageCooldown = 0;
+        int warningTimer = 150;
 
-        public Form2()
+        public bool HeldKeysContains(Keys key) => heldKeys.Contains(key);
+
+        public Form2(Inventory inventory)
         {
             InitializeComponent();
+
+            // 🔥 Only create one Player here
+            Player = new Player(charBox, 4);  // use PictureBox from designer
+            Player.inventory = inventory;
+            Controls.Add(Player.CharacterBox);
+
             this.DoubleBuffered = true;
-
-           this.Resize += Form2_Resize;
-
+            this.Resize += Form2_Resize;
+            passedInventory = inventory;
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            // Setup inventory label
             lblInventory.Width = 533;
             lblInventory.Height = 35;
             lblInventory.AutoSize = false;
 
-            player = new Player(charBox, 4);
+            // 🔥 Remove duplicate player creation
+            // player = new Player(charBox, 4);  <-- REMOVED
+
             enemy = new Ghost(ghostBox, 2);
             heart = new Health(heart1, heart2, heart3);
 
-            Level level1 = new Level(new List<PictureBox>()
-             {
-                ampaian1,ampaian2,ampaian3,ampaian4,ampaian5
-             },
-             new List<PictureBox>() // hide spots
-             {
-                bush1, bush2, bush3
-             },
-             new List<Item>()//items
-             {
-                new Item("Sock", hangSock1),
-                new Item("Sock", hangSock2),
-                new Item("Shirt", hangCloth1),
-                new Item("Shirt", hangCloth2),
-                new Item("Towel", hangTowel)
-                
-             }
-
-            )
-            {
-
-            };
+            // Level setup
+            Level level1 = new Level(
+                new List<PictureBox>() { ampaian1, ampaian2, ampaian3, ampaian4, ampaian5 },
+                new List<PictureBox>() { bush1, bush2, bush3 },
+                new List<Item>() { }
+            );
             game = new GameManager();
             game.LoadLevel(level1);
 
-
-
+            // Instruction Label
             lblInstruction = new Label();
             lblInstruction.Text = "CONTROLS: \n Move : WASD or Arrow Keys \n Hide/Unhide : E (when near a hiding spot) \n Perform Tasks : F \n Select Inventory Items : Number Keys";
-            lblInstruction.BackColor = Color.FromArgb(200, 0, 0, 0); // semi-transparent black
+            lblInstruction.BackColor = Color.FromArgb(200, 0, 0, 0);
             lblInstruction.ForeColor = Color.White;
             lblInstruction.Font = new Font("Arial", 12, FontStyle.Regular);
-            lblInstruction.AutoSize = false; // allow manual size
-            lblInstruction.Size = new Size(1000, 150); // adjust as needed
+            lblInstruction.AutoSize = false;
+            lblInstruction.Size = new Size(1000, 150);
             lblInstruction.TextAlign = ContentAlignment.MiddleCenter;
-
             lblInstruction.Location = new Point((this.ClientSize.Width - lblInstruction.Width) / 2,
-    (this.ClientSize.Height - lblInstruction.Height) / 2);
+                                                (this.ClientSize.Height - lblInstruction.Height) / 2);
             lblInstruction.Visible = true;
-
-
             this.Controls.Add(lblInstruction);
             lblInstruction.BringToFront();
 
-            //storyline
+            // Storyline
             storyLine = new List<string>()
             {
                 "Yana quickly grabs the wet clothes, heart racing.",
@@ -128,33 +107,25 @@ namespace OOP_Project
                 "Every creak echoes. The ghost could appear at any moment...",
                 "and maybe...faster"
             };
-
-
-
-            // Display the first line
             lblInstruction.Text = storyLine[currentLineIndex];
 
-            // create Resizer
-            resizer = new Resizer(this, player, enemy);
+            // Resizer
+            resizer = new Resizer(this, Player, enemy); // 🔥 Use Player property
 
-
-            //label be aware and gameover
+            // Warning Label
             lblWarning = new Label();
             lblWarning.Text = "BE AWARE!";
             lblWarning.Font = new Font("Arial", 24, FontStyle.Bold);
             lblWarning.ForeColor = Color.Red;
             lblWarning.BackColor = Color.Transparent;
             lblWarning.AutoSize = true;
-            lblWarning.Visible = false; // 👈 ADD THIS new
-
+            lblWarning.Visible = false;
             this.Controls.Add(lblWarning);
-
             lblWarning.Left = (this.ClientSize.Width / 2) - (lblWarning.Width / 2);
-
             lblWarning.Top = (this.ClientSize.Height / 2) - (lblWarning.Height / 2);
-
             lblWarning.BringToFront();
 
+            // Game Over Label
             lblStatus.Text = "GAME OVER";
             lblStatus.Font = new Font("Arial", 28, FontStyle.Bold);
             lblStatus.ForeColor = Color.DarkRed;
@@ -162,66 +133,87 @@ namespace OOP_Project
             lblStatus.Location = new Point((this.ClientSize.Width / 2) - 100, (this.ClientSize.Height / 2) - 50);
             lblStatus.AutoSize = true;
             lblStatus.Visible = false;
-
             this.Controls.Add(lblStatus);
 
+            // Game Completed label
+            lblCompleted.Text = "GAME COMPLETED";
+            lblCompleted.Font = new Font("Arial", 28, FontStyle.Bold);
+            lblCompleted.ForeColor = Color.Green;
+            lblCompleted.BackColor = Color.Transparent;
+            lblCompleted.AutoSize = true;
+            lblCompleted.Visible = false; // hide initially
+            this.Controls.Add(lblCompleted);
+            // center it
+            lblCompleted.Left = (this.ClientSize.Width - lblCompleted.Width) / 2;
+            lblCompleted.Top = (this.ClientSize.Height - lblCompleted.Height) / 2;
+            lblCompleted.BringToFront();
 
-            //lblInventory.Text = "Inventory: " + player.inventory.ToString();
+            // Hang ProgressBar
+            hangProgress = new ProgressBar
+            {
+                Size = new Size(100, 23),
+                Visible = false,
+                Minimum = 0,
+                Maximum = 100,
+                Value = 0
+            };
+            this.Controls.Add(hangProgress);
+
+            // 🔥 Updated HangTask constructor (only pass Form2)
+            List<PictureBox> hangBoxes = new List<PictureBox>() { hangBox1, hangBox2, hangBox3, hangBox4, hangBox5 };
+            hangTask = new HangTask(this, Player.inventory, hangBoxes, hangProgress);  // ✅ correct
+
             UpdateInventoryLabel();
 
-            
-
-
-
-
+            // Game Timer
+            gameTimer = new Timer();
+            gameTimer.Interval = 16; // ~60 FPS
+            gameTimer.Tick += GameLoop;
+            gameTimer.Start();
         }
 
         private void GameLoop(object sender, EventArgs e)
         {
+            if (isGameOver) return;
+
             bool moved = false;
 
-            //task
-
-
-            //player movement
-            if (heldKeys.Contains(Keys.Left) || heldKeys.Contains(Keys.A)) { player.Move("left", game.GetObstacles(), this.ClientSize); moved = true; }
-            else if (heldKeys.Contains(Keys.Right) || heldKeys.Contains(Keys.D)) { player.Move("right", game.GetObstacles(), this.ClientSize); moved = true; }
-            else if (heldKeys.Contains(Keys.Up) || heldKeys.Contains(Keys.W)) { player.Move("up", game.GetObstacles(), this.ClientSize); moved = true; }
-            else if (heldKeys.Contains(Keys.Down) || heldKeys.Contains(Keys.S)) { player.Move("down", game.GetObstacles(), this.ClientSize); moved = true; }
+            // Player movement 🔥 Use Player property
+            if (heldKeys.Contains(Keys.Left) || heldKeys.Contains(Keys.A)) { Player.Move("left", game.GetObstacles(), this.ClientSize); moved = true; }
+            else if (heldKeys.Contains(Keys.Right) || heldKeys.Contains(Keys.D)) { Player.Move("right", game.GetObstacles(), this.ClientSize); moved = true; }
+            else if (heldKeys.Contains(Keys.Up) || heldKeys.Contains(Keys.W)) { Player.Move("up", game.GetObstacles(), this.ClientSize); moved = true; }
+            else if (heldKeys.Contains(Keys.Down) || heldKeys.Contains(Keys.S)) { Player.Move("down", game.GetObstacles(), this.ClientSize); moved = true; }
 
             charBox.Refresh();
 
-            //update ghost
+            // Update Hang Task
+            hangTask.Update(null);
+
+            // Hang progress follows player
+            if (hangProgress.Visible)
+            {
+                hangProgress.Location = new Point(
+                    Player.CharacterBox.Left + (Player.CharacterBox.Width - hangProgress.Width) / 2,
+                    Player.CharacterBox.Top - hangProgress.Height - 5
+                );
+            }
+
+            // Update ghost
             enemy.Update(charBox, game.GetObstacles(), this.ClientSize, isHiding);
 
-            // SHOW "BE AWARE" when entering
+            // Warning
             if (enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
             {
                 lblWarning.Visible = true;
-                warningTimer = 120; // 2 seconds
+                warningTimer = 120;
             }
+            if (warningTimer > 0) { warningTimer--; if (warningTimer == 0) lblWarning.Visible = false; }
 
-            if (enemy.GetState() == Ghost.GhostState.Waiting)
-            {
-                enemy.Update(charBox, game.GetObstacles(), this.ClientSize, isHiding);
-            }
-            // HANDLE WARNING TIMER
-            if (warningTimer > 0)
-            {
-                warningTimer--;
-                if (warningTimer == 0)
-                    lblWarning.Visible = false;
-            }
-
-            // COLLISION
-            if (!isHiding &&
-                charBox.Visible &&
-                charBox.Bounds.IntersectsWith(enemy.CharacterBox.Bounds) &&
-                damageCooldown == 0)
+            // Collision
+            if (!isHiding && charBox.Visible && charBox.Bounds.IntersectsWith(enemy.CharacterBox.Bounds) && damageCooldown == 0)
             {
                 isGameOver = heart.TakeDamage();
                 damageCooldown = 120;
-
                 if (isGameOver)
                 {
                     gameTimer.Stop();
@@ -230,102 +222,67 @@ namespace OOP_Project
                     lblStatus.BringToFront();
                 }
             }
+            if (damageCooldown > 0) damageCooldown--;
 
-            if (damageCooldown > 0)
-                damageCooldown--;
-
-            
-
-
-
-
-
+            if (hangTask.IsCompleted && !lblCompleted.Visible)
+            {
+                lblCompleted.Visible = true;
+                // optional: stop player movement
+                isGameOver = true; // stop game loop if you want
+            }
         }
-
-
-
-        private void Form2_KeyDown(object sender, KeyEventArgs e)
-        {
-           
-        }
-
-        private void Form2_KeyUp(object sender, KeyEventArgs e)
-        {
-            
-        }
-
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
             heldKeys.Add(e.KeyCode);
 
-            // Hotbar selection
+            // Hotbar selection 🔥 Use Player.Inventory
             if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D6)
             {
                 int index = e.KeyCode - Keys.D1;
-                player.inventory.SelectHotbar(index);
-
-                // Update label immediately
+                Player.inventory.SelectHotbar(index);
                 UpdateInventoryLabel();
-
             }
 
-            //storyline intro
-            if (e.KeyCode == Keys.Enter)
+            // Task key
+            if (e.KeyCode == Keys.F)
             {
-                if (isTyping)
-                {
-                    // If typing is still ongoing, skip to full line
-                    typewriterTimer.Stop();
-                    lblInstruction.Text = currentText;
-                    isTyping = false;
-                }
-                else
-                {
-                    // Move to next line
-                    currentLineIndex++;
-                    if (currentLineIndex < storyLine.Count)
-                    {
-                        ShowLine(storyLine[currentLineIndex]);
-                    }
-                    else
-                    {
-                        // End of storyline
-                        lblInstruction.Visible = false;
-                        //// -- Game timer (runs every 16ms ~ 60fps) ---
-                        gameTimer = new System.Windows.Forms.Timer { Interval = 16 };
-                        gameTimer.Tick += GameLoop;
-                        gameTimer.Start();
-                    }
-                }
-
-
-
+                // HangTask handles progress and item hanging
             }
 
-            //other key logic
+            // Hide/unhide 🔥 Use Player property
             if (e.KeyCode == Keys.E)
             {
-                if (!isHiding && game.NearHide(player))
+                if (!isHiding && game.NearHide(Player))
                 {
                     isHiding = true;
-                    player.Hide();
+                    Player.Hide();
                 }
                 else if (isHiding)
                 {
                     isHiding = false;
-                    Rectangle hideBounds = game.GetNearestHideSpot(player);
-                    int newX = hideBounds.Left + (hideBounds.Width - player.CharacterBox.Width) / 2;
+                    Rectangle hideBounds = game.GetNearestHideSpot(Player);
+                    int newX = hideBounds.Left + (hideBounds.Width - Player.CharacterBox.Width) / 2;
                     int newY = hideBounds.Bottom + 5;
-                    player.CharacterBox.Location = new Point(newX, newY);
-                    player.Show();
+                    Player.CharacterBox.Location = new Point(newX, newY);
+                    Player.Show();
+                }
+            }
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (currentLineIndex < storyLine.Count - 1)
+                {
+                    currentLineIndex++;
+                    lblInstruction.Text = storyLine[currentLineIndex];
+                }
+                else
+                {
+                    lblInstruction.Visible = false;
                 }
             }
             base.OnKeyDown(e);
-
-
         }
-
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
@@ -333,86 +290,16 @@ namespace OOP_Project
             base.OnKeyUp(e);
         }
 
-        private void UpdateInventoryLabel()
-
+        public void UpdateInventoryLabel()
         {
-
-            string text = "Inventory: " + player.inventory.ToString();
+            // 🔥 Use Player.Inventory
+            string text = "Inventory: " + Player.inventory.ToString();
             lblInventory.Text = text;
-
-            // Measure text width
-            Size textSize = TextRenderer.MeasureText(text, lblInventory.Font);
-
-            int fixedWidth = 533;
-            int fixedHeight = 35;
-            int maxWidth = 691;
-
-            if (textSize.Width <= fixedWidth)
-            {
-                // Text fits, use fixed size
-                lblInventory.AutoSize = false;
-                lblInventory.Width = fixedWidth;
-                lblInventory.Height = fixedHeight;
-                lblInventory.Height = fixedHeight;
-            }
-            else if (textSize.Width <= maxWidth)
-            {
-                // Text exceeds fixed but under max width, expand width
-                lblInventory.AutoSize = false;
-                lblInventory.Width = textSize.Width + 20; // add some padding
-                lblInventory.Height = fixedHeight;
-            }
-            else
-            {
-                // Text exceeds max width, allow wrapping
-                lblInventory.AutoSize = true;
-                lblInventory.MaximumSize = new Size(maxWidth, 0); // max width, height auto
-            }
         }
-        //to resize when enlarge
+
         private void Form2_Resize(object sender, EventArgs e)
         {
-            if (resizer != null)
-
-                resizer.Resize();
-
-
-        }
-
-        private void ShowLine(string line)
-        {
-            if (isTyping) return; // prevent overlapping
-            isTyping = true;
-
-            currentText = line;
-            charIndex = 0;
-            lblInstruction.Text = "";
-
-            typewriterTimer.Interval = 30; // milliseconds per character
-            typewriterTimer.Tick -= TypewriterTimer_Tick; // remove previous handlers
-            typewriterTimer.Tick += TypewriterTimer_Tick;
-            typewriterTimer.Start();
-        }
-
-        private void TypewriterTimer_Tick(object sender, EventArgs e)
-        {
-            if (charIndex < currentText.Length)
-            {
-                lblInstruction.Text += currentText[charIndex];
-                charIndex++;
-            }
-            else
-            {
-                typewriterTimer.Stop();
-                isTyping = false; // finished typing
-            }
-        }
-
-        private void ghostBox_Click(object sender, EventArgs e)
-        {
-
+            resizer?.Resize();
         }
     }
 }
-
-

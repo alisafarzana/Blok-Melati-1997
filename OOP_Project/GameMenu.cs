@@ -12,10 +12,12 @@ namespace OOP_Project
         
         private int Level;
         private string storyText;
+        private Inventory inventory;
 
-        public GameMenu(int level)
+        public GameMenu(int level, Inventory inventory = null)
         {
             this.Level = level;
+            this.inventory = inventory; // 🔥 store it
         }
 
         public void startGame(Form currentForm)
@@ -30,9 +32,14 @@ namespace OOP_Project
 
             else if (Level == 2)
             {
+                if (inventory == null)
+                {
+                    MessageBox.Show("You must complete Level 1 first!");
+                    return;
+                }
                 storyText = "School Rule #9:\r\nDon’t let the ghost catch you.\r\n\r\nSchool Rule #10:\r\nIf you see a ghost, run.";
-                Form2 form = new Form2();
-                form.Show();
+                Form2 form2 = new Form2(inventory);
+                form2.Show();
                 currentForm.Hide();
             }
 

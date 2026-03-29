@@ -19,7 +19,7 @@ namespace OOP_Project.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -303,6 +303,16 @@ namespace OOP_Project.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap shirtHanged {
+            get {
+                object obj = ResourceManager.GetObject("shirtHanged", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap singki {
             get {
                 object obj = ResourceManager.GetObject("singki", resourceCulture);
@@ -326,6 +336,16 @@ namespace OOP_Project.Properties {
         internal static System.Drawing.Bitmap sock {
             get {
                 object obj = ResourceManager.GetObject("sock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap socksHanged {
+            get {
+                object obj = ResourceManager.GetObject("socksHanged", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -416,6 +436,16 @@ namespace OOP_Project.Properties {
         internal static System.Drawing.Bitmap towel {
             get {
                 object obj = ResourceManager.GetObject("towel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap towelHanged {
+            get {
+                object obj = ResourceManager.GetObject("towelHanged", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

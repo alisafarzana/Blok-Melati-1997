@@ -32,6 +32,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -64,6 +68,7 @@
     <Compile Include="GameMenu.cs" />
     <Compile Include="GameTaskBase.cs" />
     <Compile Include="Ghost.cs" />
+    <Compile Include="HangTask.cs" />
     <Compile Include="health.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Item.cs" />
@@ -244,6 +249,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Untitled74_20260327172426.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shirtHanged.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\towelHanged.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\socksHanged.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
