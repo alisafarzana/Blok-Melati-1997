@@ -47,6 +47,7 @@
             this.hangBox3 = new System.Windows.Forms.PictureBox();
             this.hangBox4 = new System.Windows.Forms.PictureBox();
             this.hangBox5 = new System.Windows.Forms.PictureBox();
+            this.btnMenu2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ampaian1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charBox)).BeginInit();
@@ -296,6 +297,22 @@
             this.hangBox5.TabIndex = 24;
             this.hangBox5.TabStop = false;
             // 
+            // btnMenu2
+            // 
+            this.btnMenu2.BackColor = System.Drawing.Color.Transparent;
+            this.btnMenu2.BackgroundImage = global::OOP_Project.Properties.Resources.menuButton;
+            this.btnMenu2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMenu2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMenu2.ForeColor = System.Drawing.Color.Black;
+            this.btnMenu2.Location = new System.Drawing.Point(598, 374);
+            this.btnMenu2.Name = "btnMenu2";
+            this.btnMenu2.Size = new System.Drawing.Size(146, 69);
+            this.btnMenu2.TabIndex = 25;
+            this.btnMenu2.Text = " ";
+            this.btnMenu2.UseVisualStyleBackColor = false;
+            this.btnMenu2.Visible = false;
+            this.btnMenu2.Click += new System.EventHandler(this.btnMenu2_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -303,6 +320,7 @@
             this.BackgroundImage = global::OOP_Project.Properties.Resources.Untitled74_20260327002100;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1329, 617);
+            this.Controls.Add(this.btnMenu2);
             this.Controls.Add(this.lblInventory);
             this.Controls.Add(this.hangBox5);
             this.Controls.Add(this.hangBox4);
@@ -369,5 +387,6 @@
         private System.Windows.Forms.PictureBox hangBox3;
         private System.Windows.Forms.PictureBox hangBox4;
         private System.Windows.Forms.PictureBox hangBox5;
+        private System.Windows.Forms.Button btnMenu2;
     }
 }

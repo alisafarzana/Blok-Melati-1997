@@ -228,6 +228,9 @@ namespace OOP_Project
                     lblStatus.Text = "GAME OVER";
                     lblStatus.Visible = true;
                     lblStatus.BringToFront();
+
+                    btnMenu2.Visible = true;
+                    btnMenu2.Enabled = true;
                 }
             }
             if (damageCooldown > 0) damageCooldown--;
@@ -237,6 +240,8 @@ namespace OOP_Project
                 lblCompleted.Visible = true;
                 // optional: stop player movement
                 isGameOver = true; // stop game loop if you want
+                btnMenu2.Visible = true;
+                btnMenu2.Enabled = true;
             }
             bgSound.Play();
         }
@@ -316,6 +321,13 @@ namespace OOP_Project
         private void Form2_Resize(object sender, EventArgs e)
         {
             resizer?.Resize();
+        }
+
+        private void btnMenu2_Click(object sender, EventArgs e)
+        {
+            Start start = new Start();
+            start.Show();
+            this.Close();
         }
     }
 }

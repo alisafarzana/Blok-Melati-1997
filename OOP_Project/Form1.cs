@@ -545,8 +545,10 @@ namespace OOP_Project
 
         private void FixLayers()
         {
-
             sinkBox.BringToFront();  // sink above ghost
+            rightToiletBox.BringToFront(); 
+            leftToiletBox.BringToFront();  
+            
 
             taskBar.BringToFront();  // UI always on top
         }
