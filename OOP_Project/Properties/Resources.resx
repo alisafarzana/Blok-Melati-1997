@@ -118,14 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="kain" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kain.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="T11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\T1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="L1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Untitled74_20260327002100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Untitled74_20260327002100.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="bucket" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bucket.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Untitled74_20260327172235" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Untitled74_20260327172235.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="heart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\heart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -145,14 +151,17 @@
   <data name="ghostBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ghostBack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="T21" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\T2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="socksHanged" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\socksHanged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="T2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\T2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="R1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\R1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clothes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clothes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ghostLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ghostLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -193,26 +202,20 @@
   <data name="towel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\towel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Untitled72_20260326220924" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Untitled72_20260326220924.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="walkRight3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\walkRight3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="D3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\D3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="L3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\L3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="clothes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clothes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Untitled74_20260327172235" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Untitled74_20260327172235.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="R2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\R2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kain" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\kain.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Untitled72_20260326220924" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Untitled72_20260326220924.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="shirt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shirt1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -223,6 +226,9 @@
   <data name="T1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\T1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="shirtHanged" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shirtHanged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="R3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\R3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -232,8 +238,11 @@
   <data name="walkRight2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\walkRight2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="L1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\L1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="L3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\L3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="towelHanged" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\towelHanged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="singkicucibaju" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\singkicucibaju.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -250,16 +259,13 @@
   <data name="T3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\T3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Untitled74_20260327002100" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Untitled74_20260327002100.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="T21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\T2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="shirtHanged" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\shirtHanged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MenuBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MenuBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="towelHanged" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\towelHanged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="socksHanged" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\socksHanged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="NextBtn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NextBtn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,6 +23,10 @@ namespace OOP_Project
         private int stateTimer = 300; // waiting 5 sec
         private int roamDuration = 300;
 
+
+        //ghost Sound
+        private SoundPlayer ghostSfx;
+
      
 
 
@@ -30,6 +35,7 @@ namespace OOP_Project
             CharacterBox = box;
             this.speed = speed;
             CharacterBox.Visible = false; // start hidden
+            ghostSfx = new SoundPlayer("ghost_Sound.wav");
 
 
             animations = new Dictionary<string, List<Image>>()
@@ -137,6 +143,7 @@ namespace OOP_Project
             bool validY = false;
             do
             {
+                //PlayMusic("ghost_Sound.wav");
                 spawnY = rnd.Next(50, boundary.Height - CharacterBox.Height);
                 validY = true;
                 foreach (var obs in obstacles)
@@ -228,6 +235,10 @@ namespace OOP_Project
             Animate(currentDirection);
         }
 
+        public void PlayGhostMusic()
+        {
+            ghostSfx.Play();
+        }
         
     }
 }

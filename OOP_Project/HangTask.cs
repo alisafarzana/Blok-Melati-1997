@@ -26,7 +26,7 @@ public class HangTask : GameTaskBase
         playerInventory = inventory;
         hangBoxes = boxes;
         progressBar = progress;
-
+        player = form.Player;
         boxOccupied = new bool[boxes.Count];
 
         hangImages = new Dictionary<string, Image>()
@@ -79,8 +79,16 @@ public class HangTask : GameTaskBase
     {
         var heldItem = playerInventory.HeldItem;
 
-        Rectangle playerArea = gameForm.Player.CharacterBox.Bounds;
-        playerArea.Inflate(30, 30);
+        //Rectangle playerArea = gameForm.Player.CharacterBox.Bounds;
+        //playerArea.Inflate(30, 30);
+        Rectangle playerArea = new Rectangle(
+        player.CharacterBox.Left - 40,   // wider left
+        player.CharacterBox.Top - 80,    // extend UP more
+        player.CharacterBox.Width + 80,  // wider width
+        player.CharacterBox.Height + 100  // extend height upward
+        );
+
+        
 
 
         // 🔥 CHECK WHICH BOX PLAYER IS NEAR

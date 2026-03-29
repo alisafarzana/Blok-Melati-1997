@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +17,20 @@ namespace OOP_Project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+
+            //Background Sound
+            SoundPlayer bgMusic = new SoundPlayer("bg_Sound.wav");
+            bgMusic.PlayLooping();
             Application.Run(new Start());
         }
+
+        //public static void PlayMusic(string filepath)
+        //{
+        //    SoundPlayer musicPlayer = new SoundPlayer();
+        //    musicPlayer.SoundLocation = filepath;
+        //    musicPlayer.PlayLooping();
+        //}
+
     }
 }

@@ -259,5 +259,11 @@
   <ItemGroup>
     <None Include="Resources\socksHanged.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MenuBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NextBtn.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

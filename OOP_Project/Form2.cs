@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -44,6 +45,8 @@ namespace OOP_Project
         int damageCooldown = 0;
         int warningTimer = 150;
 
+        private SoundPlayer bgSound = new SoundPlayer("bg_Sound.wav");
+
         public bool HeldKeysContains(Keys key) => heldKeys.Contains(key);
 
         public Form2(Inventory inventory)
@@ -62,6 +65,8 @@ namespace OOP_Project
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            bgSound.Play();
+            
             // Setup inventory label
             lblInventory.Width = 533;
             lblInventory.Height = 35;
@@ -158,6 +163,7 @@ namespace OOP_Project
                 Value = 0
             };
             this.Controls.Add(hangProgress);
+            hangProgress.BringToFront();
 
             // 🔥 Updated HangTask constructor (only pass Form2)
             List<PictureBox> hangBoxes = new List<PictureBox>() { hangBox1, hangBox2, hangBox3, hangBox4, hangBox5 };
@@ -169,7 +175,7 @@ namespace OOP_Project
             gameTimer = new Timer();
             gameTimer.Interval = 16; // ~60 FPS
             gameTimer.Tick += GameLoop;
-            gameTimer.Start();
+            //gameTimer.Start();
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -196,16 +202,18 @@ namespace OOP_Project
                     Player.CharacterBox.Left + (Player.CharacterBox.Width - hangProgress.Width) / 2,
                     Player.CharacterBox.Top - hangProgress.Height - 5
                 );
+                hangProgress.BringToFront();
             }
 
             // Update ghost
             enemy.Update(charBox, game.GetObstacles(), this.ClientSize, isHiding);
 
             // Warning
-            if (enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
+            if (!hangTask.IsCompleted && enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
             {
                 lblWarning.Visible = true;
                 warningTimer = 120;
+                enemy.PlayGhostMusic();
             }
             if (warningTimer > 0) { warningTimer--; if (warningTimer == 0) lblWarning.Visible = false; }
 
@@ -230,6 +238,7 @@ namespace OOP_Project
                 // optional: stop player movement
                 isGameOver = true; // stop game loop if you want
             }
+            bgSound.Play();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -279,6 +288,7 @@ namespace OOP_Project
                 else
                 {
                     lblInstruction.Visible = false;
+                    gameTimer.Start();
                 }
             }
             base.OnKeyDown(e);
@@ -292,6 +302,12 @@ namespace OOP_Project
 
         public void UpdateInventoryLabel()
         {
+            if (Player.inventory == null)
+            {
+                lblInventory.Text = "Inventory: (empty)";
+                return;
+            }
+
             // 🔥 Use Player.Inventory
             string text = "Inventory: " + Player.inventory.ToString();
             lblInventory.Text = text;

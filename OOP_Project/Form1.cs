@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -37,7 +38,7 @@ namespace OOP_Project
         private string currentText = "";
         private int charIndex = 0;
         private bool isTyping = false; // prevent skipping during typing
-
+        private SoundPlayer bgSound = new SoundPlayer("bg_Sound.wav");
 
         private List<GameTaskBase> tasks = new List<GameTaskBase>();
         private int currentTaskIndex = 0;
@@ -86,7 +87,15 @@ namespace OOP_Project
 
         private void GameLoop(object sender, EventArgs e)
         {
-            if (isGameOver) return; // 🔥 ADD THIS LINE
+
+            
+            if (tasksComplete || isGameOver)
+            {
+                // stop all updates
+                return;
+            }
+
+            if (isGameOver) return;
             bool moved = false;
 
 
@@ -115,32 +124,41 @@ namespace OOP_Project
                     {
                         if (!isGameOver)
                         {
-                            lblStatus.Text = "ALL TASKS COMPLETED!";
+                            lblStatus.Text = "LEVEL 1 COMPLETED!";
                             tasksComplete = true;
+                            lblStatus.Visible = true;
+                            lblStatus.ForeColor = Color.Green;
+                            lblStatus.Left = (this.ClientSize.Width - lblStatus.Width) / 2;
+                            lblStatus.Top = (this.ClientSize.Height - lblStatus.Height) / 2;
+                            lblStatus.BringToFront();
+
                         }
 
                     }
                 }
 
             }
+            
 
             //Player Movement
             if (heldKeys.Contains(Keys.Left) || heldKeys.Contains(Keys.A)) { player.Move("left", game.GetObstacles(), this.ClientSize); moved = true; }
             else if (heldKeys.Contains(Keys.Right) || heldKeys.Contains(Keys.D)) { player.Move("right", game.GetObstacles(), this.ClientSize); moved = true; }
             else if (heldKeys.Contains(Keys.Up) || heldKeys.Contains(Keys.W)) { player.Move("up", game.GetObstacles(), this.ClientSize); moved = true; }
             else if (heldKeys.Contains(Keys.Down) || heldKeys.Contains(Keys.S)) { player.Move("down", game.GetObstacles(), this.ClientSize); moved = true; }
-
+            
             characterBox.Refresh(); // Force redraw for smoother animation
 
-
             // UPDATE GHOST
+            
             enemy.Update(characterBox, game.GetObstacles(), this.ClientSize, isHiding);
+            
 
             // SHOW "BE AWARE" when entering
-            if (enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
+            if (!tasksComplete && enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
             {
                 lblWarning.Visible = true;
                 warningTimer = 120; // 2 seconds
+                enemy.PlayGhostMusic();
             }
 
             if (enemy.GetState() == Ghost.GhostState.Waiting)
@@ -173,6 +191,9 @@ namespace OOP_Project
                     lblStatus.Visible = true;
                     lblStatus.BringToFront();
 
+                    btnHome.Visible = true;
+                    btnHome.Enabled = true;
+
                     return;
                 }
             }
@@ -203,6 +224,8 @@ namespace OOP_Project
             //next level
             if (tasksComplete == true)
             {
+                GameMenu.Level1Completed = true;
+                GameMenu.SavedInventory = player.inventory;
                 btnNext.Visible = true;
                 btnHome.Visible = true;
                 btnNext.Enabled = true;
@@ -221,7 +244,7 @@ namespace OOP_Project
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            bgSound.Play();
             lblInventory.Width = 533;
             lblInventory.Height = 35;
             lblInventory.AutoSize = false;
@@ -354,6 +377,8 @@ namespace OOP_Project
             taskBar.Maximum = 100;
             taskBar.Value = 0;
             taskBar.BringToFront();
+
+            
         }
 
 
