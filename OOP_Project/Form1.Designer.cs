@@ -210,28 +210,35 @@
             // 
             // btnHome
             // 
-            this.btnHome.BackgroundImage = global::OOP_Project.Properties.Resources.MenuBtn;
+            this.btnHome.BackColor = System.Drawing.Color.Black;
+            this.btnHome.BackgroundImage = global::OOP_Project.Properties.Resources.menuButton;
+            this.btnHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnHome.Enabled = false;
-            this.btnHome.Location = new System.Drawing.Point(422, 273);
+            this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHome.Location = new System.Drawing.Point(532, 428);
             this.btnHome.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnHome.Name = "btnHome";
-            this.btnHome.Size = new System.Drawing.Size(220, 124);
+            this.btnHome.Size = new System.Drawing.Size(146, 69);
             this.btnHome.TabIndex = 17;
             this.btnHome.Text = "Home";
-            this.btnHome.UseVisualStyleBackColor = true;
+            this.btnHome.UseVisualStyleBackColor = false;
             this.btnHome.Visible = false;
             this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // btnNext
             // 
+            this.btnNext.BackColor = System.Drawing.Color.Black;
+            this.btnNext.BackgroundImage = global::OOP_Project.Properties.Resources.NextButton;
+            this.btnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnNext.Enabled = false;
-            this.btnNext.Location = new System.Drawing.Point(1141, 595);
+            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNext.Location = new System.Drawing.Point(716, 428);
             this.btnNext.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(158, 56);
+            this.btnNext.Size = new System.Drawing.Size(146, 69);
             this.btnNext.TabIndex = 10;
             this.btnNext.Text = "Level 2";
-            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.UseVisualStyleBackColor = false;
             this.btnNext.Visible = false;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
