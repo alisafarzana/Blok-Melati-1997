@@ -19,6 +19,8 @@ namespace OOP_Project
 
         public enum GhostState { Waiting, Entering, Chasing, Roaming, Exiting }
         private GhostState state = GhostState.Waiting;
+        private SoundPlayer ghostHidden = new SoundPlayer("ghost_Sound.wav"); // for hiding
+
 
         private int stateTimer = 300; // waiting 5 sec
         private int roamDuration = 300;
@@ -237,8 +239,21 @@ namespace OOP_Project
 
         public void PlayGhostMusic()
         {
-            ghostSfx.Play();
+            ghostSfx.PlayLooping(); // 🔁 repeat continuously
         }
-        
+
+        public void StopGhostMusic()
+        {
+            ghostSfx.Stop();
+        }
+        public void PlayHiddenSound()
+        {
+            ghostHidden.PlayLooping();
+        }
+
+        public void StopHiddenSound()
+        {
+            ghostHidden.Stop();
+        }
     }
 }

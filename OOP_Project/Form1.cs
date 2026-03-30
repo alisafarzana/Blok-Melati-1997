@@ -39,6 +39,11 @@ namespace OOP_Project
         private int charIndex = 0;
         private bool isTyping = false; // prevent skipping during typing
         private SoundPlayer bgSound = new SoundPlayer("bg_Sound.wav");
+        private SoundPlayer ghostLaugh = new SoundPlayer("ghostLaugh.wav");
+        private SoundPlayer ghostEnd = new SoundPlayer("ghostEnd.wav");
+        private bool isGhostLaughPlaying = false;
+        private bool isHiddenSoundPlaying = false;
+        private PictureBox jumpScareBox;
 
         private List<GameTaskBase> tasks = new List<GameTaskBase>();
         private int currentTaskIndex = 0;
@@ -151,14 +156,77 @@ namespace OOP_Project
             // UPDATE GHOST
             
             enemy.Update(characterBox, game.GetObstacles(), this.ClientSize, isHiding);
-            
+
+            //if (enemy.GetState() == Ghost.GhostState.Entering ||
+            //    enemy.GetState() == Ghost.GhostState.Chasing ||
+            //    enemy.GetState() == Ghost.GhostState.Roaming)
+            //{
+            //    if (!isGhostPlaying)
+            //    {
+            //        bgSound.Stop();              // stop background
+            //        enemy.PlayGhostMusic();      // play ghost sound
+            //        isGhostPlaying = true;
+            //    }
+            //}
+            //else
+            //{
+            //    if (isGhostPlaying)
+            //    {
+            //        enemy.StopGhostMusic();      // stop ghost
+            //        bgSound.PlayLooping();       // resume bg
+            //        isGhostPlaying = false;
+            //    }
+            //}
+
+            var state = enemy.GetState();
+
+            // 🎯 1. ENTERING or CHASING → ghostLaugh
+            if (state == Ghost.GhostState.Entering || state == Ghost.GhostState.Chasing)
+            {
+                if (!isGhostLaughPlaying)
+                {
+                    bgSound.Stop();
+                    enemy.StopHiddenSound();   // stop hiding sound
+                    ghostLaugh.PlayLooping();
+
+                    isGhostLaughPlaying = true;
+                    isHiddenSoundPlaying = false;
+                }
+            }
+
+            // 🎯 2. ROAMING + HIDING → ghost_Sound
+            else if (state == Ghost.GhostState.Roaming && isHiding)
+            {
+                if (!isHiddenSoundPlaying)
+                {
+                    bgSound.Stop();
+                    ghostLaugh.Stop();         // stop laugh
+                    enemy.PlayHiddenSound();
+
+                    isHiddenSoundPlaying = true;
+                    isGhostLaughPlaying = false;
+                }
+            }
+
+            // 🎯 3. OTHERWISE → background music
+            else
+            {
+                if (isGhostLaughPlaying || isHiddenSoundPlaying)
+                {
+                    ghostLaugh.Stop();
+                    enemy.StopHiddenSound();
+                    bgSound.PlayLooping();
+
+                    isGhostLaughPlaying = false;
+                    isHiddenSoundPlaying = false;
+                }
+            }
 
             // SHOW "BE AWARE" when entering
             if (!tasksComplete && enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
             {
                 lblWarning.Visible = true;
                 warningTimer = 120; // 2 seconds
-                enemy.PlayGhostMusic();
             }
 
             if (enemy.GetState() == Ghost.GhostState.Waiting)
@@ -187,12 +255,25 @@ namespace OOP_Project
                 {
                     gameTimer.Stop();
                     heldKeys.Clear();
+
+                    // 👻 SHOW JUMPSCARE
+                    jumpScareBox.Visible = true;
+                    jumpScareBox.BringToFront();
+
                     lblStatus.Text = "GAME OVER";
                     lblStatus.Visible = true;
+
+                    lblStatus.Left = (this.ClientSize.Width - lblStatus.Width) / 2;
+                    lblStatus.Top = (this.ClientSize.Height / 2) - 120; // 👈 higher (adjust this value)
                     lblStatus.BringToFront();
 
                     btnHome.Visible = true;
                     btnHome.Enabled = true;
+
+                    // 🎵 Play ghostEnd.wav
+                    bgSound.Stop();       // stop background if still playing
+                    ghostLaugh.Stop();    // stop ghost laugh if still playing
+                    ghostEnd.Play();      // play ghostEnd once
 
                     return;
                 }
@@ -244,7 +325,7 @@ namespace OOP_Project
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            bgSound.Play();
+            bgSound.PlayLooping();
             lblInventory.Width = 533;
             lblInventory.Height = 35;
             lblInventory.AutoSize = false;
@@ -378,7 +459,19 @@ namespace OOP_Project
             taskBar.Value = 0;
             taskBar.BringToFront();
 
-            
+            jumpScareBox = new PictureBox();
+            jumpScareBox.Image = Properties.Resources.jumpScareBox; // from resources
+            jumpScareBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            jumpScareBox.Dock = DockStyle.Fill; // full screen
+            jumpScareBox.Visible = false;
+
+            this.Controls.Add(jumpScareBox);
+
+            // make sure it's ABOVE everything first
+            jumpScareBox.BringToFront();
+
+            // BUT keep GAME OVER label above it
+            lblStatus.BringToFront();
         }
 
 
@@ -545,10 +638,11 @@ namespace OOP_Project
 
         private void FixLayers()
         {
-            sinkBox.BringToFront();  // sink above ghost
-            rightToiletBox.BringToFront(); 
-            leftToiletBox.BringToFront();  
             
+            rightToiletBox.BringToFront(); 
+            leftToiletBox.BringToFront();
+            sinkBox.SendToBack();  // sink below ghost
+
 
             taskBar.BringToFront();  // UI always on top
         }

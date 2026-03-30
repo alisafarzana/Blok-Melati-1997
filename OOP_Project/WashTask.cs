@@ -13,7 +13,7 @@ namespace OOP_Project
         private TimedTask washTask;
         public override void Start(Form1 game)
         {
-            washTask = new TimedTask(1500, () =>
+            washTask = new TimedTask(500, () =>
             {
                 var held = game.Player.inventory.HeldItem;
 

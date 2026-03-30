@@ -65,6 +65,7 @@
             this.Controls.Add(this.arrow);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Start";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Blok Melati 1997";
             this.Load += new System.EventHandler(this.Start_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Start_KeyDown);

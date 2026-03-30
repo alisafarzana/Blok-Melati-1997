@@ -25,6 +25,7 @@ namespace OOP_Project
         private string currentText = "";
         private int charIndex = 0;
         private bool isTyping = false;
+        private PictureBox jumpScareBox;
 
         // 🔥 Remove old 'player' instance, use only Player property
         // Player player;  <-- REMOVED
@@ -35,6 +36,8 @@ namespace OOP_Project
         private Inventory passedInventory;
         private HangTask hangTask;
         private ProgressBar hangProgress;
+
+       
         public Player Player { get; private set; } // 🔥 SINGLE PLAYER INSTANCE
 
         Label lblWarning = new Label();
@@ -46,6 +49,11 @@ namespace OOP_Project
         int warningTimer = 150;
 
         private SoundPlayer bgSound = new SoundPlayer("bg_Sound.wav");
+        private SoundPlayer ghostLaugh = new SoundPlayer("ghostLaugh.wav");
+        private SoundPlayer ghost_Sound = new SoundPlayer("ghost_Sound.wav");
+        private SoundPlayer ghostEnd = new SoundPlayer("ghostEnd.wav");
+        private bool isGhostPlaying = false;
+        private bool isHidingSoundPlaying = false;
 
         public bool HeldKeysContains(Keys key) => heldKeys.Contains(key);
 
@@ -65,8 +73,8 @@ namespace OOP_Project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            bgSound.Play();
-            
+            bgSound.PlayLooping();
+
             // Setup inventory label
             lblInventory.Width = 533;
             lblInventory.Height = 35;
@@ -176,6 +184,20 @@ namespace OOP_Project
             gameTimer.Interval = 16; // ~60 FPS
             gameTimer.Tick += GameLoop;
             //gameTimer.Start();
+
+            // 👻 Jumpscare image (FULL SCREEN)
+            jumpScareBox = new PictureBox();
+            jumpScareBox.Dock = DockStyle.Fill;
+            jumpScareBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            // ✅ Use resource image (you already added it)
+            jumpScareBox.Image = Properties.Resources.jumpScareBox;
+
+            jumpScareBox.Visible = false;
+
+            this.Controls.Add(jumpScareBox);
+            jumpScareBox.BringToFront();   // above everything initially
+            lblStatus.BringToFront();      // BUT keep GAME OVER above it
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -208,12 +230,59 @@ namespace OOP_Project
             // Update ghost
             enemy.Update(charBox, game.GetObstacles(), this.ClientSize, isHiding);
 
+            var state = enemy.GetState();
+
+            // 👻 Ghost active (NOT hiding)
+            if ((state == Ghost.GhostState.Entering ||
+                 state == Ghost.GhostState.Chasing ||
+                 state == Ghost.GhostState.Roaming) && !isHiding)
+            {
+                if (!isGhostPlaying)
+                {
+                    bgSound.Stop();
+                    ghost_Sound.Stop(); // stop hiding sound if somehow active
+
+                    ghostLaugh.PlayLooping(); // 👻 chasing music
+                    isGhostPlaying = true;
+                    isHidingSoundPlaying = false;
+                }
+            }
+            // 🙈 Player hiding
+            else if (isHiding)
+            {
+                if (!isHidingSoundPlaying)
+                {
+                    ghostLaugh.Stop(); // stop chasing sound
+                    bgSound.Stop();
+
+                    ghost_Sound.PlayLooping(); // 🙈 hiding sound
+                    isHidingSoundPlaying = true;
+                    isGhostPlaying = false;
+                }
+            }
+            // 🌙 No ghost
+            else
+            {
+                if (isGhostPlaying || isHidingSoundPlaying)
+                {
+                    ghostLaugh.Stop();
+                    ghost_Sound.Stop();
+
+                    ghostEnd.Play(); // optional ending sound
+                    bgSound.PlayLooping();
+
+                    isGhostPlaying = false;
+                    isHidingSoundPlaying = false;
+                }
+            }
+
+
             // Warning
             if (!hangTask.IsCompleted && enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
             {
                 lblWarning.Visible = true;
                 warningTimer = 120;
-                enemy.PlayGhostMusic();
+                
             }
             if (warningTimer > 0) { warningTimer--; if (warningTimer == 0) lblWarning.Visible = false; }
 
@@ -225,8 +294,13 @@ namespace OOP_Project
                 if (isGameOver)
                 {
                     gameTimer.Stop();
+                    // 👻 Show jumpscare
+                    jumpScareBox.Visible = true;
+                    jumpScareBox.BringToFront();
                     lblStatus.Text = "GAME OVER";
                     lblStatus.Visible = true;
+                    lblStatus.Left = (this.ClientSize.Width - lblStatus.Width) / 2;
+                    lblStatus.Top = (this.ClientSize.Height / 2) - 120; // 👈 higher (adjust this value)
                     lblStatus.BringToFront();
 
                     btnMenu2.Visible = true;
@@ -243,7 +317,7 @@ namespace OOP_Project
                 btnMenu2.Visible = true;
                 btnMenu2.Enabled = true;
             }
-            bgSound.Play();
+            
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -321,6 +395,8 @@ namespace OOP_Project
         private void Form2_Resize(object sender, EventArgs e)
         {
             resizer?.Resize();
+            jumpScareBox?.BringToFront();
+            lblStatus?.BringToFront(); // keep text above jumpscare
         }
 
         private void btnMenu2_Click(object sender, EventArgs e)

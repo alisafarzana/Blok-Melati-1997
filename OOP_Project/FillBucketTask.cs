@@ -14,7 +14,7 @@ namespace OOP_Project
 
         public override void Start(Form1 game)
         {
-            fillTask = new TimedTask(2500, () =>
+            fillTask = new TimedTask(500, () =>
             {
                 var held = game.Player.inventory.HeldItem;
 
