@@ -20,17 +20,11 @@ namespace OOP_Project
 
 
             //Background Sound
-            SoundPlayer bgMusic = new SoundPlayer("bg_Sound.wav");
+            SoundPlayer bgMusic = new SoundPlayer(@"sound/bg_Sound.wav");
             bgMusic.PlayLooping();
             Application.Run(new Start());
         }
 
-        //public static void PlayMusic(string filepath)
-        //{
-        //    SoundPlayer musicPlayer = new SoundPlayer();
-        //    musicPlayer.SoundLocation = filepath;
-        //    musicPlayer.PlayLooping();
-        //}
 
     }
 }

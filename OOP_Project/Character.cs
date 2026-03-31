@@ -13,6 +13,7 @@ namespace OOP_Project
 {
     public abstract class Character
     {
+
         public PictureBox CharacterBox;
         protected int speed;
         private int frameIndex = 0;

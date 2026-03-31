@@ -48,10 +48,10 @@ namespace OOP_Project
         int damageCooldown = 0;
         int warningTimer = 150;
 
-        private SoundPlayer bgSound = new SoundPlayer("bg_Sound.wav");
-        private SoundPlayer ghostLaugh = new SoundPlayer("ghostLaugh.wav");
-        private SoundPlayer ghost_Sound = new SoundPlayer("ghost_Sound.wav");
-        private SoundPlayer ghostEnd = new SoundPlayer("ghostEnd.wav");
+        private SoundPlayer bgSound = new SoundPlayer(@"sound/bg_Sound.wav");
+        private SoundPlayer ghostLaugh = new SoundPlayer(@"sound/ghostLaugh.wav");
+        private SoundPlayer ghost_Sound = new SoundPlayer(@"sound/ghost_Sound.wav");
+        private SoundPlayer ghostEnd = new SoundPlayer(@"sound/ghostEnd.wav");
         private bool isGhostPlaying = false;
         private bool isHidingSoundPlaying = false;
 
@@ -290,7 +290,7 @@ namespace OOP_Project
             if (!isHiding && charBox.Visible && charBox.Bounds.IntersectsWith(enemy.CharacterBox.Bounds) && damageCooldown == 0)
             {
                 isGameOver = heart.TakeDamage();
-                damageCooldown = 120;
+                damageCooldown = 60;
                 if (isGameOver)
                 {
                     gameTimer.Stop();

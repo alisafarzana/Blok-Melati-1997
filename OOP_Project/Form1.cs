@@ -21,26 +21,19 @@ namespace OOP_Project
 
         private readonly HashSet<Keys> heldKeys = new HashSet<Keys>();
         private System.Windows.Forms.Timer gameTimer;
-
-
-
         private int pickupMsgTimer = 0;
-
         private bool isHiding = false;
-
-
         private Resizer resizer;
-
         private List<string> storyLine = new List<string>();
         private int currentLineIndex = 0;
         //Typewriter effect
         private Timer typewriterTimer = new Timer();
         private string currentText = "";
         private int charIndex = 0;
-        private bool isTyping = false; // prevent skipping during typing
-        private SoundPlayer bgSound = new SoundPlayer("bg_Sound.wav");
-        private SoundPlayer ghostLaugh = new SoundPlayer("ghostLaugh.wav");
-        private SoundPlayer ghostEnd = new SoundPlayer("ghostEnd.wav");
+        
+        private SoundPlayer bgSound = new SoundPlayer(@"sound/bg_Sound.wav");
+        private SoundPlayer ghostLaugh = new SoundPlayer(@"sound/ghostLaugh.wav");
+        private SoundPlayer ghostEnd = new SoundPlayer(@"sound/ghostEnd.wav");
         private bool isGhostLaughPlaying = false;
         private bool isHiddenSoundPlaying = false;
         private PictureBox jumpScareBox;
@@ -48,10 +41,25 @@ namespace OOP_Project
         private List<GameTaskBase> tasks = new List<GameTaskBase>();
         private int currentTaskIndex = 0;
         private bool tasksComplete = false;
+       
+    
+        int damageCooldown = 0;
+        int warningTimer = 150;
+        Label lblWarning = new Label();
+        Label lblStatus = new Label();
+   
+        bool isGameOver = false;
+
+        //Declare objects
         Player player;
         GameManager game;
         Ghost enemy;
         Health heart;
+
+        //declare storyLine
+        private bool isTyping = false; // prevent skipping during typing
+        Label lblInstruction = new Label();
+
 
         //for FillBucketTask
         public Player Player => player;
@@ -62,16 +70,6 @@ namespace OOP_Project
         public Label LblInstruction => lblInstruction;
 
         public ProgressBar TaskBar => taskBar;
-
-
-        int damageCooldown = 0;
-        int warningTimer = 150;
-        Label lblWarning = new Label();
-        Label lblStatus = new Label();
-        Label lblInstruction = new Label();
-        bool isGameOver = false;
-
-
 
         public Form1()
         {
@@ -157,27 +155,6 @@ namespace OOP_Project
             
             enemy.Update(characterBox, game.GetObstacles(), this.ClientSize, isHiding);
 
-            //if (enemy.GetState() == Ghost.GhostState.Entering ||
-            //    enemy.GetState() == Ghost.GhostState.Chasing ||
-            //    enemy.GetState() == Ghost.GhostState.Roaming)
-            //{
-            //    if (!isGhostPlaying)
-            //    {
-            //        bgSound.Stop();              // stop background
-            //        enemy.PlayGhostMusic();      // play ghost sound
-            //        isGhostPlaying = true;
-            //    }
-            //}
-            //else
-            //{
-            //    if (isGhostPlaying)
-            //    {
-            //        enemy.StopGhostMusic();      // stop ghost
-            //        bgSound.PlayLooping();       // resume bg
-            //        isGhostPlaying = false;
-            //    }
-            //}
-
             var state = enemy.GetState();
 
             // 🎯 1. ENTERING or CHASING → ghostLaugh
@@ -249,7 +226,7 @@ namespace OOP_Project
                 damageCooldown == 0)
             {
                 isGameOver = heart.TakeDamage();
-                damageCooldown = 300;
+                damageCooldown = 60;
 
                 if (isGameOver)
                 {
