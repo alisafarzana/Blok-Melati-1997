@@ -50,6 +50,7 @@
             this.sock2Box = new System.Windows.Forms.PictureBox();
             this.sockBox = new System.Windows.Forms.PictureBox();
             this.bucketBox = new System.Windows.Forms.PictureBox();
+            this.btnHomeJC = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.characterBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightToiletBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.washBox)).BeginInit();
@@ -173,6 +174,7 @@
             this.gamePanel.BackColor = System.Drawing.SystemColors.Control;
             this.gamePanel.BackgroundImage = global::OOP_Project.Properties.Resources._base;
             this.gamePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.gamePanel.Controls.Add(this.btnHomeJC);
             this.gamePanel.Controls.Add(this.lblInventory);
             this.gamePanel.Controls.Add(this.taskBar);
             this.gamePanel.Controls.Add(this.btnHome);
@@ -350,6 +352,23 @@
             this.bucketBox.TabIndex = 12;
             this.bucketBox.TabStop = false;
             // 
+            // btnHomeJC
+            // 
+            this.btnHomeJC.BackColor = System.Drawing.Color.Black;
+            this.btnHomeJC.BackgroundImage = global::OOP_Project.Properties.Resources.menuButton;
+            this.btnHomeJC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnHomeJC.Enabled = false;
+            this.btnHomeJC.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnHomeJC.Location = new System.Drawing.Point(627, 559);
+            this.btnHomeJC.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnHomeJC.Name = "btnHomeJC";
+            this.btnHomeJC.Size = new System.Drawing.Size(146, 69);
+            this.btnHomeJC.TabIndex = 19;
+            this.btnHomeJC.Text = " ";
+            this.btnHomeJC.UseVisualStyleBackColor = false;
+            this.btnHomeJC.Visible = false;
+            this.btnHomeJC.Click += new System.EventHandler(this.btnHomeJC_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -412,6 +431,7 @@
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnHome;
         private System.Windows.Forms.ProgressBar taskBar;
+        private System.Windows.Forms.Button btnHomeJC;
     }
 }
 

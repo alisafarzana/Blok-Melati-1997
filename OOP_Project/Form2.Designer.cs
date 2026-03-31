@@ -48,6 +48,7 @@
             this.hangBox4 = new System.Windows.Forms.PictureBox();
             this.hangBox5 = new System.Windows.Forms.PictureBox();
             this.btnMenu2 = new System.Windows.Forms.Button();
+            this.btnMenuJC = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ampaian1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charBox)).BeginInit();
@@ -313,6 +314,23 @@
             this.btnMenu2.Visible = false;
             this.btnMenu2.Click += new System.EventHandler(this.btnMenu2_Click);
             // 
+            // btnMenuJC
+            // 
+            this.btnMenuJC.BackColor = System.Drawing.Color.Transparent;
+            this.btnMenuJC.BackgroundImage = global::OOP_Project.Properties.Resources.menuButton;
+            this.btnMenuJC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMenuJC.Enabled = false;
+            this.btnMenuJC.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMenuJC.ForeColor = System.Drawing.Color.Black;
+            this.btnMenuJC.Location = new System.Drawing.Point(598, 527);
+            this.btnMenuJC.Name = "btnMenuJC";
+            this.btnMenuJC.Size = new System.Drawing.Size(146, 69);
+            this.btnMenuJC.TabIndex = 26;
+            this.btnMenuJC.Text = " ";
+            this.btnMenuJC.UseVisualStyleBackColor = false;
+            this.btnMenuJC.Visible = false;
+            this.btnMenuJC.Click += new System.EventHandler(this.btnMenuJC_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -320,6 +338,7 @@
             this.BackgroundImage = global::OOP_Project.Properties.Resources.Untitled74_20260327002100;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1329, 617);
+            this.Controls.Add(this.btnMenuJC);
             this.Controls.Add(this.btnMenu2);
             this.Controls.Add(this.lblInventory);
             this.Controls.Add(this.hangBox5);
@@ -389,5 +408,6 @@
         private System.Windows.Forms.PictureBox hangBox4;
         private System.Windows.Forms.PictureBox hangBox5;
         private System.Windows.Forms.Button btnMenu2;
+        private System.Windows.Forms.Button btnMenuJC;
     }
 }

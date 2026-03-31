@@ -259,18 +259,23 @@ namespace OOP_Project
                     // 👻 SHOW JUMPSCARE
                     jumpScareBox.Visible = true;
                     jumpScareBox.BringToFront();
+                    btnHomeJC.Visible = true;
+                    btnHomeJC.Enabled = true;
+                    
+                    jumpScareBox.Controls.Add(btnHomeJC);
+                    btnHomeJC.BringToFront();
+                 
 
                     lblStatus.Text = "GAME OVER";
                     lblStatus.Visible = true;
 
                     lblStatus.Left = (this.ClientSize.Width - lblStatus.Width) / 2;
-                    lblStatus.Top = (this.ClientSize.Height / 2) - 120; // 👈 higher (adjust this value)
+                    lblStatus.Top = (this.ClientSize.Height / 2) - 200; // 👈 higher (adjust this value)
                     lblStatus.BringToFront();
 
-                    btnHome.Visible = true;
-                    btnHome.Enabled = true;
+                   
 
-                    // 🎵 Play ghostEnd.wav
+                    //Play ghostEnd.wav
                     bgSound.Stop();       // stop background if still playing
                     ghostLaugh.Stop();    // stop ghost laugh if still playing
                     ghostEnd.Play();      // play ghostEnd once
@@ -664,6 +669,16 @@ namespace OOP_Project
             Start start = new Start();
             start.Show();
             this.Close(); 
+        }
+
+        private void btnHomeJC_Click(object sender, EventArgs e)
+        {
+            ghostEnd.Stop();
+            bgSound.Play();       // stop background if still playing
+            
+            Start start = new Start();
+            start.Show();
+            this.Close();
         }
     }
 }

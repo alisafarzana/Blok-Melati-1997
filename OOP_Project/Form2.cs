@@ -299,12 +299,17 @@ namespace OOP_Project
                     jumpScareBox.BringToFront();
                     lblStatus.Text = "GAME OVER";
                     lblStatus.Visible = true;
+                  
                     lblStatus.Left = (this.ClientSize.Width - lblStatus.Width) / 2;
-                    lblStatus.Top = (this.ClientSize.Height / 2) - 120; // 👈 higher (adjust this value)
+                    lblStatus.Top = (this.ClientSize.Height / 2) - 200; // 👈 higher (adjust this value)
                     lblStatus.BringToFront();
 
-                    btnMenu2.Visible = true;
-                    btnMenu2.Enabled = true;
+                    btnMenuJC.Visible = true;
+                    btnMenuJC.Enabled = true;
+
+                    jumpScareBox.Controls.Add(btnMenuJC);
+                    btnMenuJC.BringToFront();
+                    
                 }
             }
             if (damageCooldown > 0) damageCooldown--;
@@ -401,6 +406,15 @@ namespace OOP_Project
 
         private void btnMenu2_Click(object sender, EventArgs e)
         {
+            Start start = new Start();
+            start.Show();
+            this.Close();
+        }
+
+        private void btnMenuJC_Click(object sender, EventArgs e)
+        {
+            ghostEnd.Stop();
+            bgSound.Play();
             Start start = new Start();
             start.Show();
             this.Close();
