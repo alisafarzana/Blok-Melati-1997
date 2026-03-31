@@ -48,10 +48,10 @@ namespace OOP_Project
         int damageCooldown = 0;
         int warningTimer = 150;
 
-        private SoundPlayer bgSound = new SoundPlayer(@"sound/bg_Sound.wav");
-        private SoundPlayer ghostLaugh = new SoundPlayer(@"sound/ghostLaugh.wav");
-        private SoundPlayer ghost_Sound = new SoundPlayer(@"sound/ghost_Sound.wav");
-        private SoundPlayer ghostEnd = new SoundPlayer(@"sound/ghostEnd.wav");
+        private SoundPlayer bgSound = new SoundPlayer(Properties.Resources.bg_Sound);
+        private SoundPlayer ghostLaugh = new SoundPlayer(Properties.Resources.ghostLaugh);
+        private SoundPlayer ghost_Sound = new SoundPlayer(Properties.Resources.ghost_Sound);
+        private SoundPlayer ghostEnd = new SoundPlayer(Properties.Resources.ghostEnd);
         private bool isGhostPlaying = false;
         private bool isHidingSoundPlaying = false;
 

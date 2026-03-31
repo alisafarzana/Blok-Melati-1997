@@ -269,5 +269,23 @@
   <ItemGroup>
     <None Include="Resources\jumpScareBox.jpeg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_Sound.wav.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg_Sound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bgSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ghost_Sound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ghostEnd.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ghostLaugh.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

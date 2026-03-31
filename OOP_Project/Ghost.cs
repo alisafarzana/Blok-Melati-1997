@@ -19,7 +19,7 @@ namespace OOP_Project
 
         public enum GhostState { Waiting, Entering, Chasing, Roaming, Exiting }
         private GhostState state = GhostState.Waiting;
-        private SoundPlayer ghostHidden = new SoundPlayer(@"sound/ghost_Sound.wav"); // for hiding
+        private SoundPlayer ghostHidden = new SoundPlayer(Properties.Resources.ghost_Sound); // for hiding
 
 
         private int stateTimer = 300; // waiting 5 sec
@@ -37,7 +37,7 @@ namespace OOP_Project
             CharacterBox = box;
             this.speed = speed;
             CharacterBox.Visible = false; // start hidden
-            ghostSfx = new SoundPlayer("ghost_Sound.wav");
+            ghostSfx = new SoundPlayer(Properties.Resources.ghost_Sound);
 
 
             animations = new Dictionary<string, List<Image>>()

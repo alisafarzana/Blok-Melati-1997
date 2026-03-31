@@ -30,10 +30,10 @@ namespace OOP_Project
         private Timer typewriterTimer = new Timer();
         private string currentText = "";
         private int charIndex = 0;
-        
-        private SoundPlayer bgSound = new SoundPlayer(@"sound/bg_Sound.wav");
-        private SoundPlayer ghostLaugh = new SoundPlayer(@"sound/ghostLaugh.wav");
-        private SoundPlayer ghostEnd = new SoundPlayer(@"sound/ghostEnd.wav");
+
+        private SoundPlayer bgSound = new SoundPlayer(Properties.Resources.bg_Sound);
+        private SoundPlayer ghostLaugh = new SoundPlayer(Properties.Resources.ghostLaugh);
+        private SoundPlayer ghostEnd = new SoundPlayer(Properties.Resources.ghostEnd);
         private bool isGhostLaughPlaying = false;
         private bool isHiddenSoundPlaying = false;
         private PictureBox jumpScareBox;
