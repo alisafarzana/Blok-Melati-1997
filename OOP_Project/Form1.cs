@@ -141,14 +141,16 @@ namespace OOP_Project
                 }
 
             }
-            
+
 
             //Player Movement
-            if (heldKeys.Contains(Keys.Left) || heldKeys.Contains(Keys.A)) { player.Move("left", game.GetObstacles(), this.ClientSize); moved = true; }
-            else if (heldKeys.Contains(Keys.Right) || heldKeys.Contains(Keys.D)) { player.Move("right", game.GetObstacles(), this.ClientSize); moved = true; }
-            else if (heldKeys.Contains(Keys.Up) || heldKeys.Contains(Keys.W)) { player.Move("up", game.GetObstacles(), this.ClientSize); moved = true; }
-            else if (heldKeys.Contains(Keys.Down) || heldKeys.Contains(Keys.S)) { player.Move("down", game.GetObstacles(), this.ClientSize); moved = true; }
-            
+            if (!isHiding)
+            {
+                if (heldKeys.Contains(Keys.Left) || heldKeys.Contains(Keys.A)) { player.Move("left", game.GetObstacles(), this.ClientSize); moved = true; }
+                else if (heldKeys.Contains(Keys.Right) || heldKeys.Contains(Keys.D)) { player.Move("right", game.GetObstacles(), this.ClientSize); moved = true; }
+                else if (heldKeys.Contains(Keys.Up) || heldKeys.Contains(Keys.W)) { player.Move("up", game.GetObstacles(), this.ClientSize); moved = true; }
+                else if (heldKeys.Contains(Keys.Down) || heldKeys.Contains(Keys.S)) { player.Move("down", game.GetObstacles(), this.ClientSize); moved = true; }
+            }
             characterBox.Refresh(); // Force redraw for smoother animation
 
             // UPDATE GHOST
@@ -288,7 +290,7 @@ namespace OOP_Project
             if (tasksComplete == true)
             {
                 GameMenu.Level1Completed = true;
-                GameMenu.SavedInventory = player.inventory;
+                GameMenu.SavedInventory = player.inventory.Clone();
                 btnNext.Visible = true;
                 btnHome.Visible = true;
                 btnNext.Enabled = true;
@@ -631,7 +633,7 @@ namespace OOP_Project
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2(player.inventory);
+            Form2 form2 = new Form2();
             form2.Show();
             this.Close();
         }

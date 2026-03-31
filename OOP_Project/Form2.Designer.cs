@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ampaian1 = new System.Windows.Forms.PictureBox();
             this.ghostBox = new System.Windows.Forms.PictureBox();
             this.charBox = new System.Windows.Forms.PictureBox();
             this.ampaian2 = new System.Windows.Forms.PictureBox();
@@ -49,7 +48,6 @@
             this.hangBox5 = new System.Windows.Forms.PictureBox();
             this.btnMenu2 = new System.Windows.Forms.Button();
             this.btnMenuJC = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.ampaian1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ampaian2)).BeginInit();
@@ -68,18 +66,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.hangBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hangBox5)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ampaian1
-            // 
-            this.ampaian1.BackColor = System.Drawing.Color.Transparent;
-            this.ampaian1.Image = global::OOP_Project.Properties.Resources.Untitled74_20260327172426;
-            this.ampaian1.Location = new System.Drawing.Point(904, 235);
-            this.ampaian1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ampaian1.Name = "ampaian1";
-            this.ampaian1.Size = new System.Drawing.Size(413, 135);
-            this.ampaian1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ampaian1.TabIndex = 3;
-            this.ampaian1.TabStop = false;
             // 
             // ghostBox
             // 
@@ -357,14 +343,12 @@
             this.Controls.Add(this.ampaian5);
             this.Controls.Add(this.ampaian4);
             this.Controls.Add(this.ampaian2);
-            this.Controls.Add(this.ampaian1);
             this.Controls.Add(this.ghostBox);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Blok Melati 1997";
             this.Load += new System.EventHandler(this.Form2_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.ampaian1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ghostBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.charBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ampaian2)).EndInit();
@@ -390,7 +374,6 @@
         #endregion
         private System.Windows.Forms.PictureBox charBox;
         private System.Windows.Forms.PictureBox ghostBox;
-        private System.Windows.Forms.PictureBox ampaian1;
         private System.Windows.Forms.PictureBox ampaian2;
         private System.Windows.Forms.PictureBox ampaian3;
         private System.Windows.Forms.PictureBox ampaian4;

@@ -75,5 +75,16 @@ namespace OOP_Project
             }
             return string.Join(", ", list);
         }
+        public Inventory Clone()
+        {
+            Inventory newInv = new Inventory();
+
+            foreach (var item in items)
+            {
+                newInv.AddItem(item);
+            }
+
+            return newInv;
+        }
     }
 }

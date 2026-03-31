@@ -39,8 +39,8 @@ namespace OOP_Project
                     MessageBox.Show("You must complete Level 1 first!");
                     return;
                 }
-                
-                Form2 form2 = new Form2(SavedInventory);
+
+                Form2 form2 = new Form2();
                 form2.Show();
                 currentForm.Hide();
             }

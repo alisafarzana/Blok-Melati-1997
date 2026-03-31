@@ -57,23 +57,24 @@ namespace OOP_Project
 
         public bool HeldKeysContains(Keys key) => heldKeys.Contains(key);
 
-        public Form2(Inventory inventory)
+        public Form2()
         {
             InitializeComponent();
 
             // 🔥 Only create one Player here
             Player = new Player(charBox, 4);  // use PictureBox from designer
-            Player.inventory = inventory;
+
             Controls.Add(Player.CharacterBox);
 
             this.DoubleBuffered = true;
             this.Resize += Form2_Resize;
-            passedInventory = inventory;
+
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
             bgSound.PlayLooping();
+            Player.inventory = GameMenu.SavedInventory?.Clone() ?? new Inventory();
 
             // Setup inventory label
             lblInventory.Width = 533;
@@ -88,7 +89,7 @@ namespace OOP_Project
 
             // Level setup
             Level level1 = new Level(
-                new List<PictureBox>() { ampaian1, ampaian2, ampaian3, ampaian4, ampaian5 },
+                new List<PictureBox>() { ampaian2, ampaian3, ampaian4, ampaian5 },
                 new List<PictureBox>() { bush1, bush2, bush3 },
                 new List<Item>() { }
             );
@@ -293,6 +294,12 @@ namespace OOP_Project
                 damageCooldown = 60;
                 if (isGameOver)
                 {
+                    // 🔥 Reset again (fresh state)
+                    Player.inventory = GameMenu.SavedInventory.Clone();
+                    UpdateInventoryLabel();
+
+                    // ❤️ Reset hearts
+                    heart = new Health(heart1, heart2, heart3);
                     gameTimer.Stop();
                     // 👻 Show jumpscare
                     jumpScareBox.Visible = true;
@@ -309,13 +316,24 @@ namespace OOP_Project
 
                     jumpScareBox.Controls.Add(btnMenuJC);
                     btnMenuJC.BringToFront();
-                    
+
+                    //Play ghostEnd.wav
+                    bgSound.Stop();       // stop background if still playing
+                    ghostLaugh.Stop();    // stop ghost laugh if still playing
+                    ghostEnd.Play();      // play ghostEnd once
+
                 }
             }
             if (damageCooldown > 0) damageCooldown--;
 
             if (hangTask.IsCompleted && !lblCompleted.Visible)
             {
+                // 🔥 Reset again (fresh state)
+                //Player.inventory = GameMenu.SavedInventory.Clone();
+                //UpdateInventoryLabel();
+
+                // ❤️ Reset hearts
+                //heart = new Health(heart1, heart2, heart3);
                 lblCompleted.Visible = true;
                 // optional: stop player movement
                 isGameOver = true; // stop game loop if you want
