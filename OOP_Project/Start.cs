@@ -17,9 +17,12 @@ namespace OOP_Project
         private Point level2 = new Point(400, 285);
         private Point Exit = new Point(400, 320);
         private int selectedLevel;
+
+        
         public Start()
         {
             InitializeComponent();
+       
         }
 
         private void Start_Load(object sender, EventArgs e)
@@ -83,5 +86,7 @@ namespace OOP_Project
             }
            
         }
+
+       
     }
 }

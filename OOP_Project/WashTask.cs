@@ -15,19 +15,19 @@ namespace OOP_Project
         {
             washTask = new TimedTask(500, () =>
             {
-                var held = game.Player.inventory.HeldItem;
+                var held = game.Player.Inventory.HeldItem;
 
-                // ✅ Must be holding a valid unwashed clothing item
+                //Must be holding a valid unwashed clothing item
                 if (held != null && IsWashable(held.Name))
                 {
-                    // ✅ Rename item after washing
+                    //Rename item after washing
                     held.Name = GetWashedName(held.Name);
 
-                    game.LblInventory.Text = "Inventory: " + game.Player.inventory.ToString();
+                    game.LblInventory.Text = "Inventory: " + game.Player.Inventory.ToString();
                     game.LblPickup.Text = "Item washed!";
 
-                    // ✅ Check if ALL clothes are washed → complete task
-                    bool allWashed = game.Player.inventory.items
+                    //Check if ALL clothes are washed → complete task
+                    bool allWashed = game.Player.Inventory.Items
                         .Where(i => IsClothing(i.Name))
                         .All(i => i.Name.StartsWith("Washed"));
 
@@ -39,7 +39,7 @@ namespace OOP_Project
 
         public override void Update(Form1 game)
         {
-            var held = game.Player.inventory.HeldItem;
+            var held = game.Player.Inventory.HeldItem;
 
             Rectangle playerArea = game.Player.CharacterBox.Bounds;
             playerArea.Inflate(10, 10);
@@ -50,13 +50,13 @@ namespace OOP_Project
 
             if (game.HeldKeys.Contains(Keys.F) &&
                 held != null &&
-                IsWashable(held.Name) && // ✅ must be unwashed clothing
+                IsWashable(held.Name) && //must be unwashed clothing
                 nearWash)
             {
                 if (!washTask.IsRunning)
                     washTask.Start();
 
-                // ✅ SHOW BAR
+                //SHOW BAR
                 game.TaskBar.Visible = true;
                 game.TaskBar.Value = washTask.Progress;
 
@@ -66,7 +66,7 @@ namespace OOP_Project
             {
                 washTask.Cancel();
 
-                // ✅ HIDE BAR
+                //HIDE BAR
                 game.TaskBar.Visible = false;
             }
         }
@@ -81,13 +81,13 @@ namespace OOP_Project
             return name == "Shirt" || name == "Sock" || name == "Towel";
         }
 
-        // ✅ Identify all clothing (washed or not)
+        // Identify all clothing (washed or not)
         private bool IsClothing(string name)
         {
             return name.Contains("Shirt") || name.Contains("Sock") || name.Contains("Towel");
         }
 
-        // ✅ Convert to washed version
+        // Convert to washed version
         private string GetWashedName(string name)
         {
             switch (name)

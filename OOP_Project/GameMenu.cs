@@ -19,7 +19,7 @@ namespace OOP_Project
         public GameMenu(int level, Inventory inventory = null)
         {
             this.Level = level;
-            this.inventory = inventory; // 🔥 store it
+            this.inventory = inventory; //store it
         }
 
         public void startGame(Form currentForm)
@@ -47,7 +47,7 @@ namespace OOP_Project
 
 
         }
-        //public bool checkWin()
+   
        
 }
 }

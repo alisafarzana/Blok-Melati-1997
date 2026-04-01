@@ -25,12 +25,9 @@ namespace OOP_Project
         private bool isHiding = false;
         private Resizer resizer;
         private List<string> storyLine = new List<string>();
-        private int currentLineIndex = 0;
-        //Typewriter effect
-        private Timer typewriterTimer = new Timer();
-        private string currentText = "";
-        private int charIndex = 0;
+       
 
+       //sounds
         private SoundPlayer bgSound = new SoundPlayer(Properties.Resources.bg_Sound);
         private SoundPlayer ghostLaugh = new SoundPlayer(Properties.Resources.ghostLaugh);
         private SoundPlayer ghostEnd = new SoundPlayer(Properties.Resources.ghostEnd);
@@ -38,6 +35,7 @@ namespace OOP_Project
         private bool isHiddenSoundPlaying = false;
         private PictureBox jumpScareBox;
 
+        //tasks
         private List<GameTaskBase> tasks = new List<GameTaskBase>();
         private int currentTaskIndex = 0;
         private bool tasksComplete = false;
@@ -57,20 +55,19 @@ namespace OOP_Project
         Health heart;
 
         //declare storyLine
-        private bool isTyping = false; // prevent skipping during typing
         Label lblInstruction = new Label();
 
+        private StoryManager storyManager;
 
-        //for FillBucketTask
         public Player Player => player;
         public GameManager Game => game;
         public HashSet<Keys> HeldKeys => heldKeys;
         public Label LblInventory => lblInventory;
         public Label LblPickup => lblPickup;
         public Label LblInstruction => lblInstruction;
-
         public ProgressBar TaskBar => taskBar;
 
+        
         public Form1()
         {
             InitializeComponent();
@@ -88,9 +85,170 @@ namespace OOP_Project
 
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            bgSound.PlayLooping();
+            lblInventory.Width = 533;
+            lblInventory.Height = 35;
+            lblInventory.AutoSize = false;
+
+            player = new Player(characterBox, 4);
+            enemy = new Ghost(ghostPic, 1);
+            heart = new Health(heart1, heart2, heart3);
+
+            Level level1 = new Level(new List<PictureBox>()
+             { //list of obstacles
+                leftToiletBox,
+                rightToiletBox,
+                sinkBox,
+                washBox
+             },
+             new List<PictureBox>() // hide spots
+             {
+                 //list of hiding spots
+                leftToiletBox,
+                rightToiletBox
+             },
+             new List<Item>()//items
+             {
+                new Item("Shirt", shirtBox),
+                new Item("Sock", sockBox),
+                new Item("Sock", sock2Box),
+                new Item("Towel", towelBox),
+                new Item("Shirt", shirt2Box),
+                new Item("Bucket", bucketBox)
+             },
+             new List<PictureBox>() //washstations
+             {
+                washBox
+             },
+             new List<PictureBox>() //water stations
+             {
+                sinkBox
+             }
+            );
+
+            game = new GameManager();
+            game.LoadLevel(level1);
+
+
+            //UI for storyLine and instructions
+            lblInstruction = new Label();
+            lblInstruction.Text = "CONTROLS: \n Move : WASD or Arrow Keys \n Hide/Unhide : E (when near a hiding spot) \n Perform Tasks : F \n Select Inventory Items : Number Keys";
+            lblInstruction.BackColor = Color.FromArgb(200, 0, 0, 0); // semi-transparent black
+            lblInstruction.ForeColor = Color.White;
+            lblInstruction.Font = new Font("Arial", 12, FontStyle.Regular);
+            lblInstruction.AutoSize = false; // allow manual size
+            lblInstruction.Size = new Size(1000, 150); // adjust as needed
+            lblInstruction.TextAlign = ContentAlignment.MiddleCenter;
+
+            lblInstruction.Location = new Point((this.ClientSize.Width - lblInstruction.Width) / 2,
+    (this.ClientSize.Height - lblInstruction.Height) / 2);
+            lblInstruction.Visible = true;
+
+
+            this.Controls.Add(lblInstruction);
+            lblInstruction.BringToFront();
+
+            //storyline
+            storyLine = new List<string>()
+            {
+                "Meet Yana, a quiet student at a girls' school...",
+                "One night, past midnight, a senior appeared in the empty corridor.",
+                "\"Yana... I need you to wash my clothes,\" the senior whispered.",
+                "Yana’s heart raced. She knew disobeying meant punishment...",
+                "But obeying meant she might be trapped in the dark school alone.",
+                "She must complete the tasks quietly and carefully.",
+                "Remember: the shadows are watching.",
+                "If something approaches, hide immediately! Don't let it catch you...",
+                "Use WASD or Arrow Keys to move Yana around the rooms.",
+                "Press E to hide when near hiding spots (toilet) to avoid detection.",
+                "Hold F to perform tasks like washing or filling the bucket.",
+                "Select items from the inventory using the number keys.",
+                "Every sound could give you away... Good luck!"
+            };
+
+            storyManager = new StoryManager(storyLine, lblInstruction);
+            storyManager.StoryFinished += () =>
+            {
+                lblInstruction.Visible = false;
+                gameTimer = new System.Windows.Forms.Timer { Interval = 16 };
+                gameTimer.Tick += GameLoop;
+                gameTimer.Start();
+            };
+
+            storyManager.ShowNextLine();
+
+
+            // create Resizer
+            resizer = new Resizer(this, player, enemy);
+
+
+            //label be aware and gameover
+            lblWarning = new Label();
+            lblWarning.Text = "BE AWARE!";
+            lblWarning.Font = new Font("Arial", 24, FontStyle.Bold);
+            lblWarning.ForeColor = Color.Red;
+            lblWarning.BackColor = Color.Transparent;
+            lblWarning.AutoSize = true;
+            lblWarning.Visible = false; // 👈 ADD THIS new
+
+            this.Controls.Add(lblWarning);
+
+            lblWarning.Left = (this.ClientSize.Width / 2) - (lblWarning.Width / 2);
+
+            lblWarning.Top = (this.ClientSize.Height / 2) - (lblWarning.Height / 2);
+
+            lblWarning.BringToFront();
+
+            lblStatus.Text = "GAME OVER";
+            lblStatus.Font = new Font("Arial", 28, FontStyle.Bold);
+            lblStatus.ForeColor = Color.DarkRed;
+            lblStatus.BackColor = Color.Transparent;
+            lblStatus.Location = new Point((this.ClientSize.Width / 2) - 100, (this.ClientSize.Height / 2) - 50);
+            lblStatus.AutoSize = true;
+            lblStatus.Visible = false;
+
+            this.Controls.Add(lblStatus);
+
+
+            //lblInventory.Text = "Inventory: " + player.inventory.ToString();
+            UpdateInventoryLabel();
+
+
+
+            // setup tasks , Add to List<GameBaseTask>
+            tasks.Add(new PickUpTask());
+            tasks.Add(new FillBucketTask());
+            tasks.Add(new WashTask());
+
+            tasks[currentTaskIndex].Start(this);
+
+
+            //task bar setup
+            taskBar.Visible = false;
+            taskBar.Minimum = 0;
+            taskBar.Maximum = 100;
+            taskBar.Value = 0;
+            taskBar.BringToFront();
+
+            //jumpscare setup
+            jumpScareBox = new PictureBox();
+            jumpScareBox.Image = Properties.Resources.jumpScareBox; // from resources
+            jumpScareBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            jumpScareBox.Dock = DockStyle.Fill; // full screen
+            jumpScareBox.Visible = false;
+
+            this.Controls.Add(jumpScareBox);
+
+            // make sure it's ABOVE everything first
+            jumpScareBox.BringToFront();
+
+            // BUT keep GAME OVER label above it
+            lblStatus.BringToFront();
+        }
         private void GameLoop(object sender, EventArgs e)
         {
-
             
             if (tasksComplete || isGameOver)
             {
@@ -102,12 +260,11 @@ namespace OOP_Project
             bool moved = false;
 
 
-            // ✅ Make taskBar follow player
-            taskBar.Left = player.CharacterBox.Left;
-            taskBar.Top = player.CharacterBox.Top - 20; // above player
+            //Make taskBar follow player
+            taskBar.Left = player.Position.X;
+            taskBar.Top = player.Position.Y - 20; // above player
 
             //task
-
             if (currentTaskIndex < tasks.Count)
             {
                 var currentTask = tasks[currentTaskIndex];
@@ -157,9 +314,9 @@ namespace OOP_Project
             
             enemy.Update(characterBox, game.GetObstacles(), this.ClientSize, isHiding);
 
-            var state = enemy.GetState();
+            var state = enemy.State;
 
-            // 🎯 1. ENTERING or CHASING → ghostLaugh
+            //ENTERING or CHASING - ghostLaugh
             if (state == Ghost.GhostState.Entering || state == Ghost.GhostState.Chasing)
             {
                 if (!isGhostLaughPlaying)
@@ -173,7 +330,7 @@ namespace OOP_Project
                 }
             }
 
-            // 🎯 2. ROAMING + HIDING → ghost_Sound
+            //ROAMING + HIDING - ghost_Sound
             else if (state == Ghost.GhostState.Roaming && isHiding)
             {
                 if (!isHiddenSoundPlaying)
@@ -187,7 +344,7 @@ namespace OOP_Project
                 }
             }
 
-            // 🎯 3. OTHERWISE → background music
+            // OTHERWISE - background music
             else
             {
                 if (isGhostLaughPlaying || isHiddenSoundPlaying)
@@ -202,13 +359,13 @@ namespace OOP_Project
             }
 
             // SHOW "BE AWARE" when entering
-            if (!tasksComplete && enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
+            if (!tasksComplete && enemy.State == Ghost.GhostState.Entering && warningTimer == 0)
             {
                 lblWarning.Visible = true;
                 warningTimer = 120; // 2 seconds
             }
 
-            if (enemy.GetState() == Ghost.GhostState.Waiting)
+            if (enemy.State == Ghost.GhostState.Waiting)
             {
                 enemy.Update(characterBox, game.GetObstacles(), this.ClientSize, isHiding);
             }
@@ -224,9 +381,10 @@ namespace OOP_Project
             // COLLISION
             if (!isHiding &&
                 characterBox.Visible &&
-                characterBox.Bounds.IntersectsWith(enemy.CharacterBox.Bounds) &&
+                player.Bounds.IntersectsWith(enemy.Bounds) &&
                 damageCooldown == 0)
             {
+
                 isGameOver = heart.TakeDamage();
                 damageCooldown = 60;
 
@@ -235,7 +393,7 @@ namespace OOP_Project
                     gameTimer.Stop();
                     heldKeys.Clear();
 
-                    // 👻 SHOW JUMPSCARE
+                    //SHOW JUMPSCARE
                     jumpScareBox.Visible = true;
                     jumpScareBox.BringToFront();
                     btnHomeJC.Visible = true;
@@ -249,7 +407,7 @@ namespace OOP_Project
                     lblStatus.Visible = true;
 
                     lblStatus.Left = (this.ClientSize.Width - lblStatus.Width) / 2;
-                    lblStatus.Top = (this.ClientSize.Height / 2) - 200; // 👈 higher (adjust this value)
+                    lblStatus.Top = (this.ClientSize.Height / 2) - 200; //  higher (adjust this value)
                     lblStatus.BringToFront();
 
                    
@@ -271,8 +429,7 @@ namespace OOP_Project
             {
                 string picked = game.CheckPickup(player);
                 if (picked != null)
-                {
-                    //lblInventory.Text = "Inventory: " + player.inventory.ToString();
+                {     
                     UpdateInventoryLabel();
                     lblPickup.Text = $"Picked up: {picked}!";
                     pickupMsgTimer = 120;
@@ -290,7 +447,7 @@ namespace OOP_Project
             if (tasksComplete == true)
             {
                 GameMenu.Level1Completed = true;
-                GameMenu.SavedInventory = player.inventory.Clone();
+                GameMenu.SavedInventory = player.Inventory.Clone();
                 btnNext.Visible = true;
                 btnHome.Visible = true;
                 btnNext.Enabled = true;
@@ -307,156 +464,7 @@ namespace OOP_Project
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            bgSound.PlayLooping();
-            lblInventory.Width = 533;
-            lblInventory.Height = 35;
-            lblInventory.AutoSize = false;
-
-            player = new Player(characterBox, 4);
-            enemy = new Ghost(ghostPic, 1);
-            heart = new Health(heart1, heart2, heart3);
-
-            Level level1 = new Level(new List<PictureBox>()
-             {
-                leftToiletBox,
-                rightToiletBox,
-                sinkBox,
-                washBox
-             },
-             new List<PictureBox>() // hide spots
-             {
-                leftToiletBox,
-                rightToiletBox
-             },
-             new List<Item>()//items
-             {
-                new Item("Shirt", shirtBox),
-                new Item("Sock", sockBox),
-                new Item("Sock", sock2Box),
-                new Item("Towel", towelBox),
-                new Item("Shirt", shirt2Box),
-                new Item("Bucket", bucketBox)
-             },
-             new List<PictureBox>() //washstations
-             {
-                washBox
-             },
-             new List<PictureBox>() //water stations
-             {
-                sinkBox
-             }
-            );
-
-            game = new GameManager();
-            game.LoadLevel(level1);
-
-
-
-            lblInstruction = new Label();
-            lblInstruction.Text = "CONTROLS: \n Move : WASD or Arrow Keys \n Hide/Unhide : E (when near a hiding spot) \n Perform Tasks : F \n Select Inventory Items : Number Keys";
-            lblInstruction.BackColor = Color.FromArgb(200, 0, 0, 0); // semi-transparent black
-            lblInstruction.ForeColor = Color.White;
-            lblInstruction.Font = new Font("Arial", 12, FontStyle.Regular);
-            lblInstruction.AutoSize = false; // allow manual size
-            lblInstruction.Size = new Size(1000, 150); // adjust as needed
-            lblInstruction.TextAlign = ContentAlignment.MiddleCenter;
-
-            lblInstruction.Location = new Point((this.ClientSize.Width - lblInstruction.Width) / 2,
-    (this.ClientSize.Height - lblInstruction.Height) / 2);
-            lblInstruction.Visible = true;
-
-
-            this.Controls.Add(lblInstruction);
-            lblInstruction.BringToFront();
-
-            //storyline
-            storyLine = new List<string>()
-            {
-                "Meet Yana, a quiet student at a girls' school...",
-                "One night, past midnight, a senior appeared in the empty corridor.",
-                "\"Yana... I need you to wash my clothes,\" the senior whispered.",
-                "Yana’s heart raced. She knew disobeying meant punishment...",
-                "But obeying meant she might be trapped in the dark school alone.",
-                "She must complete the tasks quietly and carefully.",
-                "Remember: the shadows are watching.",
-                "If something approaches, hide immediately! Don't let it catch you...",
-                "Use WASD or Arrow Keys to move Yana around the rooms.",
-                "Press E to hide when near hiding spots to avoid detection.",
-                "Press F to perform tasks like washing or filling the bucket.",
-                "Select items from the inventory using the number keys.",
-                "Every sound could give you away... Good luck!"
-            };
-
-
-
-            // Display the first line
-            lblInstruction.Text = storyLine[currentLineIndex];
-
-            // create Resizer
-            resizer = new Resizer(this, player, enemy);
-
-
-            //label be aware and gameover
-            lblWarning = new Label();
-            lblWarning.Text = "BE AWARE!";
-            lblWarning.Font = new Font("Arial", 24, FontStyle.Bold);
-            lblWarning.ForeColor = Color.Red;
-            lblWarning.BackColor = Color.Transparent;
-            lblWarning.AutoSize = true;
-            lblWarning.Visible = false; // 👈 ADD THIS new
-
-            this.Controls.Add(lblWarning);
-
-            lblWarning.Left = (this.ClientSize.Width / 2) - (lblWarning.Width / 2);
-
-            lblWarning.Top = (this.ClientSize.Height / 2) - (lblWarning.Height / 2);
-
-            lblWarning.BringToFront();
-
-            lblStatus.Text = "GAME OVER";
-            lblStatus.Font = new Font("Arial", 28, FontStyle.Bold);
-            lblStatus.ForeColor = Color.DarkRed;
-            lblStatus.BackColor = Color.Transparent;
-            lblStatus.Location = new Point((this.ClientSize.Width / 2) - 100, (this.ClientSize.Height / 2) - 50);
-            lblStatus.AutoSize = true;
-            lblStatus.Visible = false;
-
-            this.Controls.Add(lblStatus);
-
-
-            //lblInventory.Text = "Inventory: " + player.inventory.ToString();
-            UpdateInventoryLabel();
-
-            tasks.Add(new PickUpTask());
-            tasks.Add(new FillBucketTask());
-            tasks.Add(new WashTask());
-
-            tasks[currentTaskIndex].Start(this);
-
-
-            //task bar setup
-            taskBar.Visible = false;
-            taskBar.Minimum = 0;
-            taskBar.Maximum = 100;
-            taskBar.Value = 0;
-            taskBar.BringToFront();
-
-            jumpScareBox = new PictureBox();
-            jumpScareBox.Image = Properties.Resources.jumpScareBox; // from resources
-            jumpScareBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            jumpScareBox.Dock = DockStyle.Fill; // full screen
-            jumpScareBox.Visible = false;
-
-            this.Controls.Add(jumpScareBox);
-
-            // make sure it's ABOVE everything first
-            jumpScareBox.BringToFront();
-
-            // BUT keep GAME OVER label above it
-            lblStatus.BringToFront();
-        }
+        
 
 
 
@@ -473,7 +481,7 @@ namespace OOP_Project
             if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D6)
             {
                 int index = e.KeyCode - Keys.D1;
-                player.inventory.SelectHotbar(index);
+                player.Inventory.SelectHotbar(index);
 
                 // Update label immediately
                 UpdateInventoryLabel();
@@ -483,35 +491,21 @@ namespace OOP_Project
             //storyline intro
             if (e.KeyCode == Keys.Enter)
             {
-                if (isTyping)
+                if (storyManager.IsTyping())
                 {
                     // If typing is still ongoing, skip to full line
-                    typewriterTimer.Stop();
-                    lblInstruction.Text = currentText;
-                    isTyping = false;
+                    storyManager.SkipCurrentLine();
                 }
                 else
                 {
                     // Move to next line
-                    currentLineIndex++;
-                    if (currentLineIndex < storyLine.Count)
-                    {
-                        ShowLine(storyLine[currentLineIndex]);
-                    }
-                    else
-                    {
-                        // End of storyline
-                        lblInstruction.Visible = false;
+                    storyManager.ShowNextLine();
+                        
                         //// -- Game timer (runs every 16ms ~ 60fps) ---
-                        gameTimer = new System.Windows.Forms.Timer { Interval = 16 };
-                        gameTimer.Tick += GameLoop;
-                        gameTimer.Start();
+                        
                     }
                 }
 
-
-
-            }
 
             //other key logic
             if (e.KeyCode == Keys.E)
@@ -545,7 +539,7 @@ namespace OOP_Project
 
         {
 
-            string text = "Inventory: " + player.inventory.ToString();
+            string text = "Inventory: " + player.Inventory.ToString();
             lblInventory.Text = text;
 
             // Measure text width
@@ -591,35 +585,7 @@ namespace OOP_Project
 
         }
 
-        private void ShowLine(string line)
-        {
-            if (isTyping) return; // prevent overlapping
-            isTyping = true;
-
-            currentText = line;
-            charIndex = 0;
-            lblInstruction.Text = "";
-
-            typewriterTimer.Interval = 30; // milliseconds per character
-            typewriterTimer.Tick -= TypewriterTimer_Tick; // remove previous handlers
-            typewriterTimer.Tick += TypewriterTimer_Tick;
-            typewriterTimer.Start();
-        }
-
-        private void TypewriterTimer_Tick(object sender, EventArgs e)
-        {
-            if (charIndex < currentText.Length)
-            {
-                lblInstruction.Text += currentText[charIndex];
-                charIndex++;
-            }
-            else
-            {
-                typewriterTimer.Stop();
-                isTyping = false; // finished typing
-            }
-        }
-
+       
         private void FixLayers()
         {
             
@@ -659,8 +625,10 @@ namespace OOP_Project
             start.Show();
             this.Close();
         }
-    }
 }
+}
+
+
        
 
         

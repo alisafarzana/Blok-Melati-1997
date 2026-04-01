@@ -57,7 +57,7 @@ namespace OOP_Project
                 if (player.Bounds.IntersectsWith(item.ItemBox.Bounds))
                 {
                     item.PickUp();
-                    player.inventory.AddItem(item);
+                    player.Inventory.AddItem(item);
                     return item.Name;
                 }
             }
@@ -103,10 +103,7 @@ namespace OOP_Project
             }
 
             return nearest.Bounds;
-            //int distLeft = Math.Abs(player.CharacterBox.Left - leftToiletBox.Left);
-            //int distRight = Math.Abs(player.CharacterBox.Left - rightToiletBox.Left);
-
-            //return distLeft < distRight ? leftToiletBox.Bounds : rightToiletBox.Bounds;
+         
         }
 
         public bool AllItemsPicked()

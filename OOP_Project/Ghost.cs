@@ -19,24 +19,29 @@ namespace OOP_Project
 
         public enum GhostState { Waiting, Entering, Chasing, Roaming, Exiting }
         private GhostState state = GhostState.Waiting;
-        private SoundPlayer ghostHidden = new SoundPlayer(Properties.Resources.ghost_Sound); // for hiding
-
-
+        public GhostState State
+        {
+            get { return state; }
+            private set { state = value; }
+        }
+        
         private int stateTimer = 300; // waiting 5 sec
         private int roamDuration = 300;
 
-
         //ghost Sound
+        private SoundPlayer ghostHidden;
         private SoundPlayer ghostSfx;
 
-     
 
+        //public GhostState GetState() => state;
+ 
 
         public Ghost(PictureBox box, int speed) : base(box, speed) //constructor
         {
-            CharacterBox = box;
-            this.speed = speed;
+           
+            this.Speed = speed;
             CharacterBox.Visible = false; // start hidden
+            ghostHidden = new SoundPlayer(Properties.Resources.ghost_Sound);
             ghostSfx = new SoundPlayer(Properties.Resources.ghost_Sound);
 
 
@@ -69,8 +74,16 @@ namespace OOP_Project
             };
         }
 
-        public GhostState GetState() => state;
+        public override void Move(string dir, List<PictureBox> obstacles, Size boundary) //override base class method
+        {
 
+            //ghost has different movement
+            MoveWithCollision(dir, obstacles, boundary, ignoreBoundaries: false);
+            Animate(dir);
+
+        }
+
+        //check the state of ghost and update accordingly
         public void Update(PictureBox player, List<PictureBox> obstacles, Size boundary, bool isPlayerHidden)
         {
             switch (state)
@@ -83,6 +96,7 @@ namespace OOP_Project
 
                 case GhostState.Entering:
                     // move left ignoring boundaries so ghost walks in smoothly
+                    // if ghost hits an obstacle, ignoreBoundaries will return false and reset to waiting
                     if (!MoveWithCollision("left", obstacles, boundary, ignoreBoundaries: true))
                     {
                         state = GhostState.Waiting;
@@ -122,7 +136,7 @@ namespace OOP_Project
 
                 case GhostState.Exiting:
                     // move right ignoring boundaries so ghost walks out
-                    CharacterBox.Left += speed;
+                    CharacterBox.Left += Speed;
                     Animate("right");
 
                     if (CharacterBox.Left > boundary.Width + CharacterBox.Width)
@@ -137,7 +151,7 @@ namespace OOP_Project
             CharacterBox.BringToFront();
         }
 
-        private void StartEntering(Size boundary, List<PictureBox> obstacles)
+        private void StartEntering(Size boundary, List<PictureBox> obstacles)// when the ghost enter
         {
             int spawnX = boundary.Width + 100; // spawn outside right
             int spawnY;
@@ -167,17 +181,21 @@ namespace OOP_Project
             
         }
 
-        private void StartExiting() => state = GhostState.Exiting;
+        private void StartExiting()//when the ghost exit
+        {
+            State = GhostState.Exiting;
+        }
 
+        // Move in a direction while checking for collisions. If ignoreBoundaries is true, it won't stop at edges.
         private bool MoveWithCollision(string direction, List<PictureBox> obstacles, Size boundary, bool ignoreBoundaries = false)
         {
             Point newPos = CharacterBox.Location;
             switch (direction)
             {
-                case "left": newPos.X -= speed; break;
-                case "right": newPos.X += speed; break;
-                case "up": newPos.Y -= speed; break;
-                case "down": newPos.Y += speed; break;
+                case "left": newPos.X -= Speed; break;
+                case "right": newPos.X += Speed; break;
+                case "up": newPos.Y -= Speed; break;
+                case "down": newPos.Y += Speed; break;
             }
 
             Rectangle newBounds = new Rectangle(newPos, CharacterBox.Size);
@@ -200,11 +218,7 @@ namespace OOP_Project
             CharacterBox.Location = newBounds.Location;
             return true;
         }
-        public override void Move(string dir, List<PictureBox> obstacles, Size boundary) //override base class method
-        {
-            base.Move(dir, obstacles, boundary);
-        }
-
+    
 
         public void Chase(PictureBox target, List<PictureBox> obstacles, Size boundary)
         {
@@ -233,7 +247,8 @@ namespace OOP_Project
                 roamTimer = 60; // change direction every ~1 second
             }
 
-            MoveWithCollision(currentDirection, obstacles, boundary);
+            //MoveWithCollision(currentDirection, obstacles, boundary);
+            Move(currentDirection, obstacles, boundary);
             Animate(currentDirection);
         }
 

@@ -17,7 +17,7 @@ public class HangTask : GameTaskBase
 
     private TimedTask hangTimer;
 
-    private int currentBoxIndex = -1; // 🔥 track which box player is near
+    private int currentBoxIndex = -1; //track which box player is near
 
     public Player Player => player;
     public HangTask(Form2 form, Inventory inventory, List<PictureBox> boxes, ProgressBar progress)
@@ -46,12 +46,12 @@ public class HangTask : GameTaskBase
         progressBar.Maximum = 100;
         progressBar.Value = 0;
 
-        // 🔥 TIMER
+        // TIMER
         hangTimer = new TimedTask(3000, () =>
         {
             var heldItem = playerInventory.HeldItem;
 
-            // 🔥 MUST have valid box
+            // MUST have valid box
             if (currentBoxIndex != -1 &&
                 heldItem != null &&
                 hangImages.ContainsKey(heldItem.Name) &&
@@ -79,8 +79,6 @@ public class HangTask : GameTaskBase
     {
         var heldItem = playerInventory.HeldItem;
 
-        //Rectangle playerArea = gameForm.Player.CharacterBox.Bounds;
-        //playerArea.Inflate(30, 30);
         Rectangle playerArea = new Rectangle(
         player.CharacterBox.Left - 40,   // wider left
         player.CharacterBox.Top - 80,    // extend UP more
@@ -91,7 +89,7 @@ public class HangTask : GameTaskBase
         
 
 
-        // 🔥 CHECK WHICH BOX PLAYER IS NEAR
+        // CHECK WHICH BOX PLAYER IS NEAR
         currentBoxIndex = -1;
 
         for (int i = 0; i < hangBoxes.Count; i++)
@@ -114,7 +112,7 @@ public class HangTask : GameTaskBase
             if (!hangTimer.IsRunning)
                 hangTimer.Start();
 
-            // ✅ SHOW BAR
+            //SHOW BAR
             progressBar.Visible = true;
             progressBar.Value = hangTimer.Progress;
         }

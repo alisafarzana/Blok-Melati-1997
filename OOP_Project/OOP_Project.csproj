@@ -84,6 +84,7 @@
     <Compile Include="Start.Designer.cs">
       <DependentUpon>Start.cs</DependentUpon>
     </Compile>
+    <Compile Include="StoryManager.cs" />
     <Compile Include="TimedTask.cs" />
     <Compile Include="WashTask.cs" />
     <EmbeddedResource Include="Form1.resx">

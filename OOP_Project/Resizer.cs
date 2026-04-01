@@ -21,7 +21,7 @@ namespace OOP_Project
         private Dictionary<Control, float> originalFontSizes = new Dictionary<Control, float>();
         private Point originalCharPosition;
 
-        public Resizer(Form form, Player player, Ghost ghost)
+        public Resizer(Form form, Player player = null, Ghost ghost = null)
         {
             this.form = form;
             this.player = player;

@@ -20,15 +20,10 @@ namespace OOP_Project
         private Resizer resizer;
 
         private List<string> storyLine = new List<string>();
-        private int currentLineIndex = 0;
-        private Timer typewriterTimer = new Timer();
-        private string currentText = "";
-        private int charIndex = 0;
-        private bool isTyping = false;
+    
         private PictureBox jumpScareBox;
 
-        // 🔥 Remove old 'player' instance, use only Player property
-        // Player player;  <-- REMOVED
+      
         GameManager game;
         Ghost enemy;
         Health heart;
@@ -36,9 +31,10 @@ namespace OOP_Project
         private Inventory passedInventory;
         private HangTask hangTask;
         private ProgressBar hangProgress;
+        private StoryManager storyManager;
 
        
-        public Player Player { get; private set; } // 🔥 SINGLE PLAYER INSTANCE
+        public Player Player { get; private set; } // SINGLE PLAYER INSTANCE
 
         Label lblWarning = new Label();
         Label lblStatus = new Label();
@@ -61,7 +57,7 @@ namespace OOP_Project
         {
             InitializeComponent();
 
-            // 🔥 Only create one Player here
+            //Only create one Player here
             Player = new Player(charBox, 4);  // use PictureBox from designer
 
             Controls.Add(Player.CharacterBox);
@@ -74,27 +70,25 @@ namespace OOP_Project
         private void Form2_Load(object sender, EventArgs e)
         {
             bgSound.PlayLooping();
-            Player.inventory = GameMenu.SavedInventory?.Clone() ?? new Inventory();
+            Player.Inventory = GameMenu.SavedInventory?.Clone() ?? new Inventory();
 
             // Setup inventory label
             lblInventory.Width = 533;
             lblInventory.Height = 35;
             lblInventory.AutoSize = false;
 
-            // 🔥 Remove duplicate player creation
-            // player = new Player(charBox, 4);  <-- REMOVED
 
             enemy = new Ghost(ghostBox, 2);
             heart = new Health(heart1, heart2, heart3);
 
             // Level setup
-            Level level1 = new Level(
-                new List<PictureBox>() { ampaian2, ampaian3, ampaian4, ampaian5 },
-                new List<PictureBox>() { bush1, bush2, bush3 },
+            Level level2 = new Level(
+                new List<PictureBox>() { ampaian2, ampaian3, ampaian4, ampaian5 }, //obstacles
+                new List<PictureBox>() { bush1, bush2, bush3 }, //hiding spots
                 new List<Item>() { }
             );
             game = new GameManager();
-            game.LoadLevel(level1);
+            game.LoadLevel(level2);
 
             // Instruction Label
             lblInstruction = new Label();
@@ -117,11 +111,20 @@ namespace OOP_Project
                 "Yana quickly grabs the wet clothes, heart racing.",
                 "Suddenly, a shadow moves... the ghost is here!",
                 "She must hang the clothes and stay quiet, or she’ll be caught.",
-                "Move fast with WASD/Arrow Keys, hide with E, and complete the task with F.",
+                "Move fast with WASD/Arrow Keys, hide with E in the bushes, and complete the task by holding F.",
                 "Every creak echoes. The ghost could appear at any moment...",
                 "and maybe...faster"
             };
-            lblInstruction.Text = storyLine[currentLineIndex];
+            storyManager = new StoryManager(storyLine, lblInstruction);
+            storyManager.StoryFinished += () =>
+            {
+                lblInstruction.Visible = false;
+                gameTimer = new System.Windows.Forms.Timer { Interval = 16 };
+                gameTimer.Tick += GameLoop;
+                gameTimer.Start();
+            };
+
+            storyManager.ShowNextLine();
 
             // Resizer
             resizer = new Resizer(this, Player, enemy); // 🔥 Use Player property
@@ -157,6 +160,7 @@ namespace OOP_Project
             lblCompleted.AutoSize = true;
             lblCompleted.Visible = false; // hide initially
             this.Controls.Add(lblCompleted);
+
             // center it
             lblCompleted.Left = (this.ClientSize.Width - lblCompleted.Width) / 2;
             lblCompleted.Top = (this.ClientSize.Height - lblCompleted.Height) / 2;
@@ -174,24 +178,20 @@ namespace OOP_Project
             this.Controls.Add(hangProgress);
             hangProgress.BringToFront();
 
-            // 🔥 Updated HangTask constructor (only pass Form2)
+            // Updated HangTask constructor (only pass Form2)
             List<PictureBox> hangBoxes = new List<PictureBox>() { hangBox1, hangBox2, hangBox3, hangBox4, hangBox5 };
-            hangTask = new HangTask(this, Player.inventory, hangBoxes, hangProgress);  // ✅ correct
+            hangTask = new HangTask(this, Player.Inventory, hangBoxes, hangProgress);  // ✅ correct
 
             UpdateInventoryLabel();
 
-            // Game Timer
-            gameTimer = new Timer();
-            gameTimer.Interval = 16; // ~60 FPS
-            gameTimer.Tick += GameLoop;
-            //gameTimer.Start();
+     
 
-            // 👻 Jumpscare image (FULL SCREEN)
+            //  Jumpscare image (FULL SCREEN)
             jumpScareBox = new PictureBox();
             jumpScareBox.Dock = DockStyle.Fill;
             jumpScareBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            // ✅ Use resource image (you already added it)
+            // Use resource image (you already added it)
             jumpScareBox.Image = Properties.Resources.jumpScareBox;
 
             jumpScareBox.Visible = false;
@@ -207,7 +207,7 @@ namespace OOP_Project
 
             bool moved = false;
 
-            // Player movement 🔥 Use Player property
+            // Player movement  Use Player property
             if (heldKeys.Contains(Keys.Left) || heldKeys.Contains(Keys.A)) { Player.Move("left", game.GetObstacles(), this.ClientSize); moved = true; }
             else if (heldKeys.Contains(Keys.Right) || heldKeys.Contains(Keys.D)) { Player.Move("right", game.GetObstacles(), this.ClientSize); moved = true; }
             else if (heldKeys.Contains(Keys.Up) || heldKeys.Contains(Keys.W)) { Player.Move("up", game.GetObstacles(), this.ClientSize); moved = true; }
@@ -231,9 +231,9 @@ namespace OOP_Project
             // Update ghost
             enemy.Update(charBox, game.GetObstacles(), this.ClientSize, isHiding);
 
-            var state = enemy.GetState();
+            var state = enemy.State;
 
-            // 👻 Ghost active (NOT hiding)
+            //Ghost active (NOT hiding)
             if ((state == Ghost.GhostState.Entering ||
                  state == Ghost.GhostState.Chasing ||
                  state == Ghost.GhostState.Roaming) && !isHiding)
@@ -243,12 +243,12 @@ namespace OOP_Project
                     bgSound.Stop();
                     ghost_Sound.Stop(); // stop hiding sound if somehow active
 
-                    ghostLaugh.PlayLooping(); // 👻 chasing music
+                    ghostLaugh.PlayLooping(); //chasing music
                     isGhostPlaying = true;
                     isHidingSoundPlaying = false;
                 }
             }
-            // 🙈 Player hiding
+            //Player hiding
             else if (isHiding)
             {
                 if (!isHidingSoundPlaying)
@@ -256,12 +256,12 @@ namespace OOP_Project
                     ghostLaugh.Stop(); // stop chasing sound
                     bgSound.Stop();
 
-                    ghost_Sound.PlayLooping(); // 🙈 hiding sound
+                    ghost_Sound.PlayLooping(); // hiding sound
                     isHidingSoundPlaying = true;
                     isGhostPlaying = false;
                 }
             }
-            // 🌙 No ghost
+            //No ghost
             else
             {
                 if (isGhostPlaying || isHidingSoundPlaying)
@@ -279,7 +279,7 @@ namespace OOP_Project
 
 
             // Warning
-            if (!hangTask.IsCompleted && enemy.GetState() == Ghost.GhostState.Entering && warningTimer == 0)
+            if (!hangTask.IsCompleted && enemy.State == Ghost.GhostState.Entering && warningTimer == 0)
             {
                 lblWarning.Visible = true;
                 warningTimer = 120;
@@ -294,23 +294,26 @@ namespace OOP_Project
                 damageCooldown = 60;
                 if (isGameOver)
                 {
-                    // 🔥 Reset again (fresh state)
-                    Player.inventory = GameMenu.SavedInventory.Clone();
+                    //Reset again (fresh state)
+                    Player.Inventory = GameMenu.SavedInventory.Clone();
                     UpdateInventoryLabel();
 
-                    // ❤️ Reset hearts
+                    //Reset hearts
                     heart = new Health(heart1, heart2, heart3);
                     gameTimer.Stop();
-                    // 👻 Show jumpscare
+
+                    //Show jumpscare
                     jumpScareBox.Visible = true;
                     jumpScareBox.BringToFront();
+
+                    //Show Game Over text
                     lblStatus.Text = "GAME OVER";
                     lblStatus.Visible = true;
-                  
                     lblStatus.Left = (this.ClientSize.Width - lblStatus.Width) / 2;
-                    lblStatus.Top = (this.ClientSize.Height / 2) - 200; // 👈 higher (adjust this value)
+                    lblStatus.Top = (this.ClientSize.Height / 2) - 200; // higher (adjust this value)
                     lblStatus.BringToFront();
 
+                    //button menu during jumpscare
                     btnMenuJC.Visible = true;
                     btnMenuJC.Enabled = true;
 
@@ -328,12 +331,8 @@ namespace OOP_Project
 
             if (hangTask.IsCompleted && !lblCompleted.Visible)
             {
-                // 🔥 Reset again (fresh state)
-                //Player.inventory = GameMenu.SavedInventory.Clone();
-                //UpdateInventoryLabel();
+           
 
-                // ❤️ Reset hearts
-                //heart = new Health(heart1, heart2, heart3);
                 lblCompleted.Visible = true;
                 // optional: stop player movement
                 isGameOver = true; // stop game loop if you want
@@ -347,11 +346,11 @@ namespace OOP_Project
         {
             heldKeys.Add(e.KeyCode);
 
-            // Hotbar selection 🔥 Use Player.Inventory
+            // Hotbar selection Use Player.Inventory
             if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D6)
             {
                 int index = e.KeyCode - Keys.D1;
-                Player.inventory.SelectHotbar(index);
+                Player.Inventory.SelectHotbar(index);
                 UpdateInventoryLabel();
             }
 
@@ -361,7 +360,7 @@ namespace OOP_Project
                 // HangTask handles progress and item hanging
             }
 
-            // Hide/unhide 🔥 Use Player property
+            // Hide/unhide Use Player property
             if (e.KeyCode == Keys.E)
             {
                 if (!isHiding && game.NearHide(Player))
@@ -382,15 +381,18 @@ namespace OOP_Project
 
             if (e.KeyCode == Keys.Enter)
             {
-                if (currentLineIndex < storyLine.Count - 1)
+                if (storyManager.IsTyping())
                 {
-                    currentLineIndex++;
-                    lblInstruction.Text = storyLine[currentLineIndex];
+                    // If typing is still ongoing, skip to full line
+                    storyManager.SkipCurrentLine();
                 }
                 else
                 {
-                    lblInstruction.Visible = false;
-                    gameTimer.Start();
+                    // Move to next line
+                    storyManager.ShowNextLine();
+
+                    //// -- Game timer (runs every 16ms ~ 60fps) ---
+
                 }
             }
             base.OnKeyDown(e);
@@ -404,14 +406,14 @@ namespace OOP_Project
 
         public void UpdateInventoryLabel()
         {
-            if (Player.inventory == null)
+            if (Player.Inventory == null)
             {
                 lblInventory.Text = "Inventory: (empty)";
                 return;
             }
 
-            // 🔥 Use Player.Inventory
-            string text = "Inventory: " + Player.inventory.ToString();
+            // + Use Player.Inventory
+            string text = "Inventory: " + Player.Inventory.ToString();
             lblInventory.Text = text;
         }
 

@@ -11,12 +11,13 @@ namespace OOP_Project
     public class Player : Character
     {
 
+        public Inventory Inventory { get; set; } = new Inventory();
 
+        //Player constructor
         public Player(PictureBox box, int speed) : base(box, speed)
         {
-            CharacterBox = box;
-            this.speed = speed;
-            animations = new Dictionary<string, List<Image>>()
+            this.Speed = speed;
+            animations = new Dictionary<string, List<Image>>() //animate between 3 frames for each direction
             {
                 { "right", new List<Image>()
                 {
@@ -50,12 +51,8 @@ namespace OOP_Project
             };
         }
 
-        public Inventory inventory { get; set; } = new Inventory();
-
-        /// Call after every move. Returns item name if picked up, else null.
-
-
-        public Rectangle Bounds => CharacterBox.Bounds;
+    
+      
         public void SetVisible(bool visible)
         {
             CharacterBox.Visible = visible;
