@@ -27,7 +27,38 @@ Blok Melati 1997 is a pixelated and narrative game where the main character is Y
 * Encapsulation
 * Inheritance
 * Polymorphism
-* Abstraction 
+* Abstraction
+
+## How to Run the Program
+1. Open the solution in Visual Studio
+2. Build the project
+3. Run using Start Debugging (F5)
+4. Turn on your volume for best experience
+
+## Project Structure
+| File | Description |
+|:---|:---|
+| Character.cs | Base class for Ghost and Player. Controls movement and animation |
+| FillBucketTask.cs | Second task in Level 1. Fill up the empty bucket |
+| Form1.cs | Level 1 |
+| Form2.cs | Level 2. Sequel to Level 1 |
+| GameManager.cs | Controls game logic |
+| GameMenu.cs | Controls Main Menu logic |
+| GameTaskBase.cs | Base class to all tasks class. Controls all tasks logic |
+| Ghost.cs | Serena, the enemy in the game |
+| HangTask | Level 2 task. Hangs all washed clothes from Level 1 |
+| Inventory | Stores all player items |
+| Item.cs | Items in the game |
+| Level.cs | Manage the transitions of level and stores the obstacles in level |
+| PickUpTask.cs | First task in Level 1. Pick up all items on the floor |
+| Player.cs | Yana, the playable character |
+| Program.cs | Main Program |
+| Resizer.cs | Controls window sizing |
+| Start.cs | Main Menu |
+| StoryManager.cs | Controls the storyline of the game |
+| TimedTask.cs | Controls the duration of task progress |
+| WashTask.cs | Third task in Level 1. Wash the clothes picked up |
+| health.cs | Controls the hearts of Player |
 
 ## How to Play
 ### Objective
